@@ -1,0 +1,7 @@
+# Known Pitfalls & Gotchas (`next-auth@5.0.0-beta.25`)
+
+| Scenario | Risk or surprising behavior | Required handling | Evidence |
+|---|---|---|---|
+| Edge Runtime compatibility with Database Adapters | Database adapters (such as `@auth/prisma-adapter` connecting to PostgreSQL via Prisma) require Node.js runtime and fail on Edge runtime. | Ensure Route Handlers (`app/api/auth/[...nextauth]/route.ts`) and auth configuration run on the Node.js runtime (default in Next.js App Router unless `runtime = 'edge'` is explicitly set). | [Web] [Auth.js Edge Compatibility](https://authjs.dev/getting-started/edge-compatibility) |
+| Missing session callback user ID mapping | By default, Auth.js database sessions store user ID in database but `session.user.id` may be undefined unless explicitly forwarded in the `session` callback. | Implement explicit `session` callback: `callbacks: { session({ session, user }) { session.user.id = user.id; return session; } }`. | `[Code]` `src/server/auth/config.ts` |
+| Environment variables naming prefix | NextAuth v5 expects `AUTH_SECRET` (not `NEXTAUTH_SECRET`) and `AUTH_DISCORD_ID` / `AUTH_DISCORD_SECRET` (or provider-specific `AUTH_*` env vars). | Set `AUTH_SECRET` and provider `AUTH_<PROVIDER>_ID` / `AUTH_<PROVIDER>_SECRET` in environment variables or `@t3-oss/env-nextjs`. | [Web] [Auth.js Environment Variables](https://authjs.dev/getting-started/environment-variables) |
