@@ -399,12 +399,7 @@ export function SimulatedCheckout() {
                 ref={submitButtonRef}
                 type="button"
                 onClick={() => dispatch({ type: "openConfirmation" })}
-                disabled={!state.selectedOffer || !state.paymentMethod || !state.outcome}
-                className={`w-full font-semibold py-3 px-4 rounded-[var(--radius-control)] transition min-h-[44px] ${
-                  state.selectedOffer && state.paymentMethod && state.outcome
-                    ? "bg-[var(--color-accent)] text-[var(--color-on-accent)] hover:bg-[var(--color-accent-hover)] cursor-pointer"
-                    : "bg-[var(--color-surface-raised)] text-[var(--color-text-tertiary)] opacity-60 cursor-not-allowed"
-                }`}
+                className="w-full font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] transition min-h-[48px] bg-[var(--color-accent)] text-[#111216] hover:bg-[var(--color-accent-hover)] cursor-pointer shadow-md active:translate-y-px"
               >
                 Buat pesanan
               </button>
@@ -466,14 +461,14 @@ export function SimulatedCheckout() {
           <button
             type="button"
             onClick={() => dispatch({ type: "cancelConfirmation" })}
-            className="flex-1 bg-[var(--color-surface-raised)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition min-h-[44px]"
+            className="flex-1 bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition min-h-[44px] cursor-pointer"
           >
             Kembali edit
           </button>
           <button
             type="button"
             onClick={() => dispatch({ type: "confirm" })}
-            className="flex-1 bg-[var(--color-accent)] text-[var(--color-on-accent)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px]"
+            className="flex-1 bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px] cursor-pointer shadow-sm"
           >
             Konfirmasi simulasi
           </button>

@@ -14,8 +14,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 export const metadata: Metadata = {
-  title: "Simulasi Katalog & Top-Up Game (Hanya Simulasi)",
+  title: {
+    default: "cooper-store — Simulasi Top-Up & Voucher Game",
+    template: "%s | cooper-store",
+  },
   description: "Platform simulasi katalog dan transaksi top-up game lokal non-komersial (hanya simulasi, tanpa pembayaran nyata, jaringan, atau verifikasi akun).",
+  applicationName: "cooper-store",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

@@ -303,7 +303,7 @@ export default function CheckoutPage() {
     <main className="storefront checkout-page min-h-screen pb-16">
       <header className="store-header mb-8">
         <Link className="store-name" href="/">
-          Katalog game
+          cooper-store
         </Link>
         <span className="header-note">Checkout Simulasi</span>
       </header>
@@ -432,27 +432,41 @@ export default function CheckoutPage() {
                   Informasi Akun Game
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {requiredFields.map((field) => (
-                    <div key={field.key} className="space-y-1">
-                      <label htmlFor={`account-${field.key}`} className="block text-sm font-medium text-[var(--color-text-secondary)]">
-                        {field.label} <span className="text-[var(--color-accent)]">*</span>
-                      </label>
-                      <input
-                        id={`account-${field.key}`}
-                        type="text"
-                        value={formState.accountValues[field.key] || ""}
-                        onChange={(e) =>
-                          dispatch({
-                            type: "setAccountValue",
-                            fieldId: field.key,
-                            value: e.target.value,
-                          })
-                        }
-                        placeholder={`Masukkan ${field.label}`}
-                        className="w-full bg-[var(--color-bg-secondary)] border border-[var(--color-border-control)] rounded-[var(--radius-control)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-border-focus)] focus:outline-none transition min-h-[44px]"
-                      />
-                    </div>
-                  ))}
+                  {requiredFields.map((field) => {
+                    const hasError = Boolean(formState.errors[field.key]);
+                    return (
+                      <div key={field.key} className="space-y-1">
+                        <label htmlFor={`account-${field.key}`} className="block text-sm font-medium text-[var(--color-text-secondary)]">
+                          {field.label} <span className="text-[var(--color-accent)]">*</span>
+                        </label>
+                        <input
+                          id={`account-${field.key}`}
+                          type="text"
+                          value={formState.accountValues[field.key] || ""}
+                          onChange={(e) =>
+                            dispatch({
+                              type: "setAccountValue",
+                              fieldId: field.key,
+                              value: e.target.value,
+                            })
+                          }
+                          placeholder={`Masukkan ${field.label}`}
+                          aria-invalid={hasError}
+                          aria-describedby={hasError ? `error-${field.key}` : undefined}
+                          className={`w-full bg-[var(--color-bg-secondary)] border rounded-[var(--radius-control)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none transition min-h-[44px] ${
+                            hasError
+                              ? "border-[var(--color-danger)] focus:border-[var(--color-danger)] focus:ring-1 focus:ring-[var(--color-danger)]"
+                              : "border-[var(--color-border-control)] focus:border-[var(--color-border-focus)]"
+                          }`}
+                        />
+                        {hasError && (
+                          <p id={`error-${field.key}`} className="text-xs text-[var(--color-danger)] mt-1">
+                            {formState.errors[field.key]}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             )}
@@ -476,7 +490,7 @@ export default function CheckoutPage() {
                       key={method}
                       type="button"
                       onClick={() => dispatch({ type: "setPaymentMethod", method })}
-                      className={`p-4 rounded-[var(--radius-control)] border text-left transition flex flex-col justify-between min-h-[48px] ${
+                      className={`p-4 rounded-[var(--radius-control)] border text-left transition flex flex-col justify-between min-h-[48px] cursor-pointer ${
                         isSelected
                           ? "bg-[var(--color-surface-selected)] border-[var(--color-border-focus)] ring-1 ring-[var(--color-border-focus)]"
                           : "bg-[var(--color-bg-secondary)] border-[var(--color-border)] hover:border-[var(--color-border-control)]"
@@ -488,6 +502,11 @@ export default function CheckoutPage() {
                   );
                 })}
               </div>
+              {formState.errors.paymentMethod && (
+                <p className="text-xs text-[var(--color-danger)] mt-2">
+                  {formState.errors.paymentMethod}
+                </p>
+              )}
             </section>
 
             {/* Step 4: Simulation Outcome Choice */}
@@ -509,7 +528,7 @@ export default function CheckoutPage() {
                       key={outcome}
                       type="button"
                       onClick={() => dispatch({ type: "setOutcome", outcome })}
-                      className={`p-4 rounded-[var(--radius-control)] border text-left transition min-h-[48px] ${
+                      className={`p-4 rounded-[var(--radius-control)] border text-left transition min-h-[48px] cursor-pointer ${
                         isSelected
                           ? "bg-[var(--color-surface-selected)] border-[var(--color-border-focus)] ring-1 ring-[var(--color-border-focus)]"
                           : "bg-[var(--color-bg-secondary)] border-[var(--color-border)] hover:border-[var(--color-border-control)]"
@@ -528,6 +547,11 @@ export default function CheckoutPage() {
                   );
                 })}
               </div>
+              {formState.errors.outcome && (
+                <p className="text-xs text-[var(--color-danger)] mt-2">
+                  {formState.errors.outcome}
+                </p>
+              )}
             </section>
 
             {/* Action Button */}
@@ -536,12 +560,7 @@ export default function CheckoutPage() {
                 ref={submitButtonRef}
                 type="button"
                 onClick={() => dispatch({ type: "openConfirmation" })}
-                disabled={!isFormValid}
-                className={`w-full font-semibold py-3 px-4 rounded-[var(--radius-control)] transition min-h-[44px] ${
-                  isFormValid
-                    ? "bg-[var(--color-accent)] text-[var(--color-on-accent)] hover:bg-[var(--color-accent-hover)] cursor-pointer"
-                    : "bg-[var(--color-surface-raised)] text-[var(--color-text-tertiary)] opacity-60 cursor-not-allowed"
-                }`}
+                className="w-full font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] transition min-h-[48px] bg-[var(--color-accent)] text-[#111216] hover:bg-[var(--color-accent-hover)] cursor-pointer shadow-md active:translate-y-px"
               >
                 Buat pesanan simulasi
               </button>
@@ -609,14 +628,14 @@ export default function CheckoutPage() {
           <button
             type="button"
             onClick={() => dispatch({ type: "cancelConfirmation" })}
-            className="flex-1 bg-[var(--color-surface-raised)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition min-h-[44px]"
+            className="flex-1 bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition min-h-[44px] cursor-pointer"
           >
             Kembali edit
           </button>
           <button
             type="button"
             onClick={handleConfirmSimulation}
-            className="flex-1 bg-[var(--color-accent)] text-[var(--color-on-accent)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px]"
+            className="flex-1 bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px] cursor-pointer shadow-sm"
           >
             Konfirmasi simulasi
           </button>
