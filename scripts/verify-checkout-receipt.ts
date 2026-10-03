@@ -4,7 +4,7 @@ import {
   type CheckoutChoices, 
   type SuccessNota, 
   type CheckoutFailure 
-} from "../src/lib/checkout-receipt";
+} from "../src/lib/checkout-receipt.ts";
 
 console.log("=== STARTING CHECKOUT RECEIPT VERIFICATION SMOKE TEST ===");
 
