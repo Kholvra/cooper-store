@@ -32,3 +32,17 @@ model CatalogOffer {
 
     @@unique([gameId, position])
 }
+
+model PopularDeal {
+    id          Int      @id @default(autoincrement())
+    gameSlug    String
+    title       String
+    dealName    String
+    badge       String
+    instant     Boolean  @default(true)
+    soldCount   String
+    oldPrice    Int
+    price       Int
+    image       String
+    position    Int      @default(0)
+}

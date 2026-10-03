@@ -137,6 +137,20 @@ exports.Prisma.CatalogOfferScalarFieldEnum = {
   gameId: 'gameId'
 };
 
+exports.Prisma.PopularDealScalarFieldEnum = {
+  id: 'id',
+  gameSlug: 'gameSlug',
+  title: 'title',
+  dealName: 'dealName',
+  badge: 'badge',
+  instant: 'instant',
+  soldCount: 'soldCount',
+  oldPrice: 'oldPrice',
+  price: 'price',
+  image: 'image',
+  position: 'position'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -150,7 +164,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   CatalogGame: 'CatalogGame',
-  CatalogOffer: 'CatalogOffer'
+  CatalogOffer: 'CatalogOffer',
+  PopularDeal: 'PopularDeal'
 };
 
 /**

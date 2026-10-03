@@ -109,6 +109,20 @@ exports.Prisma.CatalogOfferScalarFieldEnum = {
   gameId: 'gameId'
 };
 
+exports.Prisma.PopularDealScalarFieldEnum = {
+  id: 'id',
+  gameSlug: 'gameSlug',
+  title: 'title',
+  dealName: 'dealName',
+  badge: 'badge',
+  instant: 'instant',
+  soldCount: 'soldCount',
+  oldPrice: 'oldPrice',
+  price: 'price',
+  image: 'image',
+  position: 'position'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -122,7 +136,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   CatalogGame: 'CatalogGame',
-  CatalogOffer: 'CatalogOffer'
+  CatalogOffer: 'CatalogOffer',
+  PopularDeal: 'PopularDeal'
 };
 /**
  * Create the Client
@@ -163,7 +178,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -172,13 +186,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel CatalogGame {\n  id       Int            @id @default(autoincrement())\n  slug     String         @unique\n  name     String\n  currency String\n  position Int\n  offers   CatalogOffer[]\n\n  @@unique([position])\n}\n\nmodel CatalogOffer {\n  id       Int         @id @default(autoincrement())\n  label    String\n  price    Int\n  position Int\n  gameId   Int\n  game     CatalogGame @relation(fields: [gameId], references: [id], onDelete: Cascade)\n\n  @@unique([gameId, position])\n}\n",
-  "inlineSchemaHash": "d75deb5b2d9938e98275fb5269d7a052d9b53e051cf365fabe3accaf2a68c80c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel CatalogGame {\n  id       Int            @id @default(autoincrement())\n  slug     String         @unique\n  name     String\n  currency String\n  position Int\n  offers   CatalogOffer[]\n\n  @@unique([position])\n}\n\nmodel CatalogOffer {\n  id       Int         @id @default(autoincrement())\n  label    String\n  price    Int\n  position Int\n  gameId   Int\n  game     CatalogGame @relation(fields: [gameId], references: [id], onDelete: Cascade)\n\n  @@unique([gameId, position])\n}\n\nmodel PopularDeal {\n  id        Int     @id @default(autoincrement())\n  gameSlug  String\n  title     String\n  dealName  String\n  badge     String\n  instant   Boolean @default(true)\n  soldCount String\n  oldPrice  Int\n  price     Int\n  image     String\n  position  Int     @default(0)\n}\n",
+  "inlineSchemaHash": "a16b138ed11ae80f0d359d71a695e1e0614ac4e21c7dfbfcf845d1f7425ef0f4",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"CatalogGame\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"offers\",\"kind\":\"object\",\"type\":\"CatalogOffer\",\"relationName\":\"CatalogGameToCatalogOffer\"}],\"dbName\":null},\"CatalogOffer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"label\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gameId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"game\",\"kind\":\"object\",\"type\":\"CatalogGame\",\"relationName\":\"CatalogGameToCatalogOffer\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"CatalogGame\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"offers\",\"kind\":\"object\",\"type\":\"CatalogOffer\",\"relationName\":\"CatalogGameToCatalogOffer\"}],\"dbName\":null},\"CatalogOffer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"label\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gameId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"game\",\"kind\":\"object\",\"type\":\"CatalogGame\",\"relationName\":\"CatalogGameToCatalogOffer\"}],\"dbName\":null},\"PopularDeal\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gameSlug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dealName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"badge\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instant\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"soldCount\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldPrice\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

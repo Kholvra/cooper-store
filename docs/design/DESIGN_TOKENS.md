@@ -54,8 +54,8 @@ Use yellow sparingly for the primary action, focus, and selected package boundar
 
 ## Typography
 
-- **Family:** `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`. One platform-native sans family supports compact commerce UI and Indonesian text without remote font loading.
-- **Scale:** five sizes only.
+- **Heading Family:** `var(--font-outfit), 'Outfit', system-ui, sans-serif`. Used for display headings, hero titles, section headings, and game titles.
+- **Body / Label Family:** `var(--font-plus-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif`. Used for body copy, labels, form controls, numeric package amounts, prices, and helper text.
 
 | Token | Size / line height | Use |
 |---|---|---|

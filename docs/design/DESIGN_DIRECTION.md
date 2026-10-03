@@ -44,7 +44,7 @@ The palette belongs to the store, not to MLBB or another game. Game artwork keep
 
 ## Typography, Shape, and Density
 
-- Use one readable system sans-serif for navigation, game labels, numeric package values, and form controls; its broad platform availability avoids remote font loading and keeps Indonesian text legible.
+- Use Outfit for display titles and section headings, and Plus Jakarta Sans for body copy, labels, navigation, game labels, numeric package values, and form controls to ensure clean visual hierarchy and optimal legibility for Indonesian text.
 - Give numeric amounts and prices stronger weight than metadata; right-align numeric values only where a comparison/list treatment benefits from it.
 - Use compact, moderate-radius controls and cards; avoid pill-shaped card grids, stacked nested cards, and heavy shadows.
 - Use tight spacing inside catalogue entries and wider spacing between game, catalogue, and checkout regions to support scanning without flattening all sections into one rhythm.

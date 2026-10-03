@@ -23,6 +23,11 @@ export type CatalogGame = $Result.DefaultSelection<Prisma.$CatalogGamePayload>
  * 
  */
 export type CatalogOffer = $Result.DefaultSelection<Prisma.$CatalogOfferPayload>
+/**
+ * Model PopularDeal
+ * 
+ */
+export type PopularDeal = $Result.DefaultSelection<Prisma.$PopularDealPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -161,6 +166,16 @@ export class PrismaClient<
     * ```
     */
   get catalogOffer(): Prisma.CatalogOfferDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.popularDeal`: Exposes CRUD operations for the **PopularDeal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PopularDeals
+    * const popularDeals = await prisma.popularDeal.findMany()
+    * ```
+    */
+  get popularDeal(): Prisma.PopularDealDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -603,7 +618,8 @@ export namespace Prisma {
 
   export const ModelName: {
     CatalogGame: 'CatalogGame',
-    CatalogOffer: 'CatalogOffer'
+    CatalogOffer: 'CatalogOffer',
+    PopularDeal: 'PopularDeal'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -622,7 +638,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "catalogGame" | "catalogOffer"
+      modelProps: "catalogGame" | "catalogOffer" | "popularDeal"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -774,6 +790,80 @@ export namespace Prisma {
           }
         }
       }
+      PopularDeal: {
+        payload: Prisma.$PopularDealPayload<ExtArgs>
+        fields: Prisma.PopularDealFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PopularDealFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PopularDealFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          findFirst: {
+            args: Prisma.PopularDealFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PopularDealFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          findMany: {
+            args: Prisma.PopularDealFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>[]
+          }
+          create: {
+            args: Prisma.PopularDealCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          createMany: {
+            args: Prisma.PopularDealCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PopularDealCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>[]
+          }
+          delete: {
+            args: Prisma.PopularDealDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          update: {
+            args: Prisma.PopularDealUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          deleteMany: {
+            args: Prisma.PopularDealDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PopularDealUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PopularDealUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>[]
+          }
+          upsert: {
+            args: Prisma.PopularDealUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopularDealPayload>
+          }
+          aggregate: {
+            args: Prisma.PopularDealAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePopularDeal>
+          }
+          groupBy: {
+            args: Prisma.PopularDealGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PopularDealGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PopularDealCountArgs<ExtArgs>
+            result: $Utils.Optional<PopularDealCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -872,6 +962,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     catalogGame?: CatalogGameOmit
     catalogOffer?: CatalogOfferOmit
+    popularDeal?: PopularDealOmit
   }
 
   /* Types for Logging */
@@ -3195,6 +3286,1125 @@ export namespace Prisma {
 
 
   /**
+   * Model PopularDeal
+   */
+
+  export type AggregatePopularDeal = {
+    _count: PopularDealCountAggregateOutputType | null
+    _avg: PopularDealAvgAggregateOutputType | null
+    _sum: PopularDealSumAggregateOutputType | null
+    _min: PopularDealMinAggregateOutputType | null
+    _max: PopularDealMaxAggregateOutputType | null
+  }
+
+  export type PopularDealAvgAggregateOutputType = {
+    id: number | null
+    oldPrice: number | null
+    price: number | null
+    position: number | null
+  }
+
+  export type PopularDealSumAggregateOutputType = {
+    id: number | null
+    oldPrice: number | null
+    price: number | null
+    position: number | null
+  }
+
+  export type PopularDealMinAggregateOutputType = {
+    id: number | null
+    gameSlug: string | null
+    title: string | null
+    dealName: string | null
+    badge: string | null
+    instant: boolean | null
+    soldCount: string | null
+    oldPrice: number | null
+    price: number | null
+    image: string | null
+    position: number | null
+  }
+
+  export type PopularDealMaxAggregateOutputType = {
+    id: number | null
+    gameSlug: string | null
+    title: string | null
+    dealName: string | null
+    badge: string | null
+    instant: boolean | null
+    soldCount: string | null
+    oldPrice: number | null
+    price: number | null
+    image: string | null
+    position: number | null
+  }
+
+  export type PopularDealCountAggregateOutputType = {
+    id: number
+    gameSlug: number
+    title: number
+    dealName: number
+    badge: number
+    instant: number
+    soldCount: number
+    oldPrice: number
+    price: number
+    image: number
+    position: number
+    _all: number
+  }
+
+
+  export type PopularDealAvgAggregateInputType = {
+    id?: true
+    oldPrice?: true
+    price?: true
+    position?: true
+  }
+
+  export type PopularDealSumAggregateInputType = {
+    id?: true
+    oldPrice?: true
+    price?: true
+    position?: true
+  }
+
+  export type PopularDealMinAggregateInputType = {
+    id?: true
+    gameSlug?: true
+    title?: true
+    dealName?: true
+    badge?: true
+    instant?: true
+    soldCount?: true
+    oldPrice?: true
+    price?: true
+    image?: true
+    position?: true
+  }
+
+  export type PopularDealMaxAggregateInputType = {
+    id?: true
+    gameSlug?: true
+    title?: true
+    dealName?: true
+    badge?: true
+    instant?: true
+    soldCount?: true
+    oldPrice?: true
+    price?: true
+    image?: true
+    position?: true
+  }
+
+  export type PopularDealCountAggregateInputType = {
+    id?: true
+    gameSlug?: true
+    title?: true
+    dealName?: true
+    badge?: true
+    instant?: true
+    soldCount?: true
+    oldPrice?: true
+    price?: true
+    image?: true
+    position?: true
+    _all?: true
+  }
+
+  export type PopularDealAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopularDeal to aggregate.
+     */
+    where?: PopularDealWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopularDeals to fetch.
+     */
+    orderBy?: PopularDealOrderByWithRelationInput | PopularDealOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PopularDealWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopularDeals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopularDeals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PopularDeals
+    **/
+    _count?: true | PopularDealCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PopularDealAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PopularDealSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PopularDealMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PopularDealMaxAggregateInputType
+  }
+
+  export type GetPopularDealAggregateType<T extends PopularDealAggregateArgs> = {
+        [P in keyof T & keyof AggregatePopularDeal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePopularDeal[P]>
+      : GetScalarType<T[P], AggregatePopularDeal[P]>
+  }
+
+
+
+
+  export type PopularDealGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PopularDealWhereInput
+    orderBy?: PopularDealOrderByWithAggregationInput | PopularDealOrderByWithAggregationInput[]
+    by: PopularDealScalarFieldEnum[] | PopularDealScalarFieldEnum
+    having?: PopularDealScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PopularDealCountAggregateInputType | true
+    _avg?: PopularDealAvgAggregateInputType
+    _sum?: PopularDealSumAggregateInputType
+    _min?: PopularDealMinAggregateInputType
+    _max?: PopularDealMaxAggregateInputType
+  }
+
+  export type PopularDealGroupByOutputType = {
+    id: number
+    gameSlug: string
+    title: string
+    dealName: string
+    badge: string
+    instant: boolean
+    soldCount: string
+    oldPrice: number
+    price: number
+    image: string
+    position: number
+    _count: PopularDealCountAggregateOutputType | null
+    _avg: PopularDealAvgAggregateOutputType | null
+    _sum: PopularDealSumAggregateOutputType | null
+    _min: PopularDealMinAggregateOutputType | null
+    _max: PopularDealMaxAggregateOutputType | null
+  }
+
+  type GetPopularDealGroupByPayload<T extends PopularDealGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PopularDealGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PopularDealGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PopularDealGroupByOutputType[P]>
+            : GetScalarType<T[P], PopularDealGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PopularDealSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameSlug?: boolean
+    title?: boolean
+    dealName?: boolean
+    badge?: boolean
+    instant?: boolean
+    soldCount?: boolean
+    oldPrice?: boolean
+    price?: boolean
+    image?: boolean
+    position?: boolean
+  }, ExtArgs["result"]["popularDeal"]>
+
+  export type PopularDealSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameSlug?: boolean
+    title?: boolean
+    dealName?: boolean
+    badge?: boolean
+    instant?: boolean
+    soldCount?: boolean
+    oldPrice?: boolean
+    price?: boolean
+    image?: boolean
+    position?: boolean
+  }, ExtArgs["result"]["popularDeal"]>
+
+  export type PopularDealSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameSlug?: boolean
+    title?: boolean
+    dealName?: boolean
+    badge?: boolean
+    instant?: boolean
+    soldCount?: boolean
+    oldPrice?: boolean
+    price?: boolean
+    image?: boolean
+    position?: boolean
+  }, ExtArgs["result"]["popularDeal"]>
+
+  export type PopularDealSelectScalar = {
+    id?: boolean
+    gameSlug?: boolean
+    title?: boolean
+    dealName?: boolean
+    badge?: boolean
+    instant?: boolean
+    soldCount?: boolean
+    oldPrice?: boolean
+    price?: boolean
+    image?: boolean
+    position?: boolean
+  }
+
+  export type PopularDealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gameSlug" | "title" | "dealName" | "badge" | "instant" | "soldCount" | "oldPrice" | "price" | "image" | "position", ExtArgs["result"]["popularDeal"]>
+
+  export type $PopularDealPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PopularDeal"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      gameSlug: string
+      title: string
+      dealName: string
+      badge: string
+      instant: boolean
+      soldCount: string
+      oldPrice: number
+      price: number
+      image: string
+      position: number
+    }, ExtArgs["result"]["popularDeal"]>
+    composites: {}
+  }
+
+  type PopularDealGetPayload<S extends boolean | null | undefined | PopularDealDefaultArgs> = $Result.GetResult<Prisma.$PopularDealPayload, S>
+
+  type PopularDealCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PopularDealFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PopularDealCountAggregateInputType | true
+    }
+
+  export interface PopularDealDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PopularDeal'], meta: { name: 'PopularDeal' } }
+    /**
+     * Find zero or one PopularDeal that matches the filter.
+     * @param {PopularDealFindUniqueArgs} args - Arguments to find a PopularDeal
+     * @example
+     * // Get one PopularDeal
+     * const popularDeal = await prisma.popularDeal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PopularDealFindUniqueArgs>(args: SelectSubset<T, PopularDealFindUniqueArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PopularDeal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PopularDealFindUniqueOrThrowArgs} args - Arguments to find a PopularDeal
+     * @example
+     * // Get one PopularDeal
+     * const popularDeal = await prisma.popularDeal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PopularDealFindUniqueOrThrowArgs>(args: SelectSubset<T, PopularDealFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopularDeal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealFindFirstArgs} args - Arguments to find a PopularDeal
+     * @example
+     * // Get one PopularDeal
+     * const popularDeal = await prisma.popularDeal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PopularDealFindFirstArgs>(args?: SelectSubset<T, PopularDealFindFirstArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopularDeal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealFindFirstOrThrowArgs} args - Arguments to find a PopularDeal
+     * @example
+     * // Get one PopularDeal
+     * const popularDeal = await prisma.popularDeal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PopularDealFindFirstOrThrowArgs>(args?: SelectSubset<T, PopularDealFindFirstOrThrowArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PopularDeals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PopularDeals
+     * const popularDeals = await prisma.popularDeal.findMany()
+     * 
+     * // Get first 10 PopularDeals
+     * const popularDeals = await prisma.popularDeal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const popularDealWithIdOnly = await prisma.popularDeal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PopularDealFindManyArgs>(args?: SelectSubset<T, PopularDealFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PopularDeal.
+     * @param {PopularDealCreateArgs} args - Arguments to create a PopularDeal.
+     * @example
+     * // Create one PopularDeal
+     * const PopularDeal = await prisma.popularDeal.create({
+     *   data: {
+     *     // ... data to create a PopularDeal
+     *   }
+     * })
+     * 
+     */
+    create<T extends PopularDealCreateArgs>(args: SelectSubset<T, PopularDealCreateArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PopularDeals.
+     * @param {PopularDealCreateManyArgs} args - Arguments to create many PopularDeals.
+     * @example
+     * // Create many PopularDeals
+     * const popularDeal = await prisma.popularDeal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PopularDealCreateManyArgs>(args?: SelectSubset<T, PopularDealCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PopularDeals and returns the data saved in the database.
+     * @param {PopularDealCreateManyAndReturnArgs} args - Arguments to create many PopularDeals.
+     * @example
+     * // Create many PopularDeals
+     * const popularDeal = await prisma.popularDeal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PopularDeals and only return the `id`
+     * const popularDealWithIdOnly = await prisma.popularDeal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PopularDealCreateManyAndReturnArgs>(args?: SelectSubset<T, PopularDealCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PopularDeal.
+     * @param {PopularDealDeleteArgs} args - Arguments to delete one PopularDeal.
+     * @example
+     * // Delete one PopularDeal
+     * const PopularDeal = await prisma.popularDeal.delete({
+     *   where: {
+     *     // ... filter to delete one PopularDeal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PopularDealDeleteArgs>(args: SelectSubset<T, PopularDealDeleteArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PopularDeal.
+     * @param {PopularDealUpdateArgs} args - Arguments to update one PopularDeal.
+     * @example
+     * // Update one PopularDeal
+     * const popularDeal = await prisma.popularDeal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PopularDealUpdateArgs>(args: SelectSubset<T, PopularDealUpdateArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PopularDeals.
+     * @param {PopularDealDeleteManyArgs} args - Arguments to filter PopularDeals to delete.
+     * @example
+     * // Delete a few PopularDeals
+     * const { count } = await prisma.popularDeal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PopularDealDeleteManyArgs>(args?: SelectSubset<T, PopularDealDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopularDeals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PopularDeals
+     * const popularDeal = await prisma.popularDeal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PopularDealUpdateManyArgs>(args: SelectSubset<T, PopularDealUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopularDeals and returns the data updated in the database.
+     * @param {PopularDealUpdateManyAndReturnArgs} args - Arguments to update many PopularDeals.
+     * @example
+     * // Update many PopularDeals
+     * const popularDeal = await prisma.popularDeal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PopularDeals and only return the `id`
+     * const popularDealWithIdOnly = await prisma.popularDeal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PopularDealUpdateManyAndReturnArgs>(args: SelectSubset<T, PopularDealUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PopularDeal.
+     * @param {PopularDealUpsertArgs} args - Arguments to update or create a PopularDeal.
+     * @example
+     * // Update or create a PopularDeal
+     * const popularDeal = await prisma.popularDeal.upsert({
+     *   create: {
+     *     // ... data to create a PopularDeal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PopularDeal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PopularDealUpsertArgs>(args: SelectSubset<T, PopularDealUpsertArgs<ExtArgs>>): Prisma__PopularDealClient<$Result.GetResult<Prisma.$PopularDealPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PopularDeals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealCountArgs} args - Arguments to filter PopularDeals to count.
+     * @example
+     * // Count the number of PopularDeals
+     * const count = await prisma.popularDeal.count({
+     *   where: {
+     *     // ... the filter for the PopularDeals we want to count
+     *   }
+     * })
+    **/
+    count<T extends PopularDealCountArgs>(
+      args?: Subset<T, PopularDealCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PopularDealCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PopularDeal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PopularDealAggregateArgs>(args: Subset<T, PopularDealAggregateArgs>): Prisma.PrismaPromise<GetPopularDealAggregateType<T>>
+
+    /**
+     * Group by PopularDeal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopularDealGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PopularDealGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PopularDealGroupByArgs['orderBy'] }
+        : { orderBy?: PopularDealGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PopularDealGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPopularDealGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PopularDeal model
+   */
+  readonly fields: PopularDealFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PopularDeal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PopularDealClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PopularDeal model
+   */
+  interface PopularDealFieldRefs {
+    readonly id: FieldRef<"PopularDeal", 'Int'>
+    readonly gameSlug: FieldRef<"PopularDeal", 'String'>
+    readonly title: FieldRef<"PopularDeal", 'String'>
+    readonly dealName: FieldRef<"PopularDeal", 'String'>
+    readonly badge: FieldRef<"PopularDeal", 'String'>
+    readonly instant: FieldRef<"PopularDeal", 'Boolean'>
+    readonly soldCount: FieldRef<"PopularDeal", 'String'>
+    readonly oldPrice: FieldRef<"PopularDeal", 'Int'>
+    readonly price: FieldRef<"PopularDeal", 'Int'>
+    readonly image: FieldRef<"PopularDeal", 'String'>
+    readonly position: FieldRef<"PopularDeal", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PopularDeal findUnique
+   */
+  export type PopularDealFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter, which PopularDeal to fetch.
+     */
+    where: PopularDealWhereUniqueInput
+  }
+
+  /**
+   * PopularDeal findUniqueOrThrow
+   */
+  export type PopularDealFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter, which PopularDeal to fetch.
+     */
+    where: PopularDealWhereUniqueInput
+  }
+
+  /**
+   * PopularDeal findFirst
+   */
+  export type PopularDealFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter, which PopularDeal to fetch.
+     */
+    where?: PopularDealWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopularDeals to fetch.
+     */
+    orderBy?: PopularDealOrderByWithRelationInput | PopularDealOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopularDeals.
+     */
+    cursor?: PopularDealWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopularDeals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopularDeals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopularDeals.
+     */
+    distinct?: PopularDealScalarFieldEnum | PopularDealScalarFieldEnum[]
+  }
+
+  /**
+   * PopularDeal findFirstOrThrow
+   */
+  export type PopularDealFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter, which PopularDeal to fetch.
+     */
+    where?: PopularDealWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopularDeals to fetch.
+     */
+    orderBy?: PopularDealOrderByWithRelationInput | PopularDealOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopularDeals.
+     */
+    cursor?: PopularDealWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopularDeals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopularDeals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopularDeals.
+     */
+    distinct?: PopularDealScalarFieldEnum | PopularDealScalarFieldEnum[]
+  }
+
+  /**
+   * PopularDeal findMany
+   */
+  export type PopularDealFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter, which PopularDeals to fetch.
+     */
+    where?: PopularDealWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopularDeals to fetch.
+     */
+    orderBy?: PopularDealOrderByWithRelationInput | PopularDealOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PopularDeals.
+     */
+    cursor?: PopularDealWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopularDeals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopularDeals.
+     */
+    skip?: number
+    distinct?: PopularDealScalarFieldEnum | PopularDealScalarFieldEnum[]
+  }
+
+  /**
+   * PopularDeal create
+   */
+  export type PopularDealCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PopularDeal.
+     */
+    data: XOR<PopularDealCreateInput, PopularDealUncheckedCreateInput>
+  }
+
+  /**
+   * PopularDeal createMany
+   */
+  export type PopularDealCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PopularDeals.
+     */
+    data: PopularDealCreateManyInput | PopularDealCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopularDeal createManyAndReturn
+   */
+  export type PopularDealCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * The data used to create many PopularDeals.
+     */
+    data: PopularDealCreateManyInput | PopularDealCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopularDeal update
+   */
+  export type PopularDealUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PopularDeal.
+     */
+    data: XOR<PopularDealUpdateInput, PopularDealUncheckedUpdateInput>
+    /**
+     * Choose, which PopularDeal to update.
+     */
+    where: PopularDealWhereUniqueInput
+  }
+
+  /**
+   * PopularDeal updateMany
+   */
+  export type PopularDealUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PopularDeals.
+     */
+    data: XOR<PopularDealUpdateManyMutationInput, PopularDealUncheckedUpdateManyInput>
+    /**
+     * Filter which PopularDeals to update
+     */
+    where?: PopularDealWhereInput
+    /**
+     * Limit how many PopularDeals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopularDeal updateManyAndReturn
+   */
+  export type PopularDealUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * The data used to update PopularDeals.
+     */
+    data: XOR<PopularDealUpdateManyMutationInput, PopularDealUncheckedUpdateManyInput>
+    /**
+     * Filter which PopularDeals to update
+     */
+    where?: PopularDealWhereInput
+    /**
+     * Limit how many PopularDeals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopularDeal upsert
+   */
+  export type PopularDealUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PopularDeal to update in case it exists.
+     */
+    where: PopularDealWhereUniqueInput
+    /**
+     * In case the PopularDeal found by the `where` argument doesn't exist, create a new PopularDeal with this data.
+     */
+    create: XOR<PopularDealCreateInput, PopularDealUncheckedCreateInput>
+    /**
+     * In case the PopularDeal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PopularDealUpdateInput, PopularDealUncheckedUpdateInput>
+  }
+
+  /**
+   * PopularDeal delete
+   */
+  export type PopularDealDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+    /**
+     * Filter which PopularDeal to delete.
+     */
+    where: PopularDealWhereUniqueInput
+  }
+
+  /**
+   * PopularDeal deleteMany
+   */
+  export type PopularDealDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopularDeals to delete
+     */
+    where?: PopularDealWhereInput
+    /**
+     * Limit how many PopularDeals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopularDeal without action
+   */
+  export type PopularDealDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopularDeal
+     */
+    select?: PopularDealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopularDeal
+     */
+    omit?: PopularDealOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3228,6 +4438,23 @@ export namespace Prisma {
   };
 
   export type CatalogOfferScalarFieldEnum = (typeof CatalogOfferScalarFieldEnum)[keyof typeof CatalogOfferScalarFieldEnum]
+
+
+  export const PopularDealScalarFieldEnum: {
+    id: 'id',
+    gameSlug: 'gameSlug',
+    title: 'title',
+    dealName: 'dealName',
+    badge: 'badge',
+    instant: 'instant',
+    soldCount: 'soldCount',
+    oldPrice: 'oldPrice',
+    price: 'price',
+    image: 'image',
+    position: 'position'
+  };
+
+  export type PopularDealScalarFieldEnum = (typeof PopularDealScalarFieldEnum)[keyof typeof PopularDealScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3276,6 +4503,13 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -3411,6 +4645,90 @@ export namespace Prisma {
     gameId?: IntWithAggregatesFilter<"CatalogOffer"> | number
   }
 
+  export type PopularDealWhereInput = {
+    AND?: PopularDealWhereInput | PopularDealWhereInput[]
+    OR?: PopularDealWhereInput[]
+    NOT?: PopularDealWhereInput | PopularDealWhereInput[]
+    id?: IntFilter<"PopularDeal"> | number
+    gameSlug?: StringFilter<"PopularDeal"> | string
+    title?: StringFilter<"PopularDeal"> | string
+    dealName?: StringFilter<"PopularDeal"> | string
+    badge?: StringFilter<"PopularDeal"> | string
+    instant?: BoolFilter<"PopularDeal"> | boolean
+    soldCount?: StringFilter<"PopularDeal"> | string
+    oldPrice?: IntFilter<"PopularDeal"> | number
+    price?: IntFilter<"PopularDeal"> | number
+    image?: StringFilter<"PopularDeal"> | string
+    position?: IntFilter<"PopularDeal"> | number
+  }
+
+  export type PopularDealOrderByWithRelationInput = {
+    id?: SortOrder
+    gameSlug?: SortOrder
+    title?: SortOrder
+    dealName?: SortOrder
+    badge?: SortOrder
+    instant?: SortOrder
+    soldCount?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    image?: SortOrder
+    position?: SortOrder
+  }
+
+  export type PopularDealWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: PopularDealWhereInput | PopularDealWhereInput[]
+    OR?: PopularDealWhereInput[]
+    NOT?: PopularDealWhereInput | PopularDealWhereInput[]
+    gameSlug?: StringFilter<"PopularDeal"> | string
+    title?: StringFilter<"PopularDeal"> | string
+    dealName?: StringFilter<"PopularDeal"> | string
+    badge?: StringFilter<"PopularDeal"> | string
+    instant?: BoolFilter<"PopularDeal"> | boolean
+    soldCount?: StringFilter<"PopularDeal"> | string
+    oldPrice?: IntFilter<"PopularDeal"> | number
+    price?: IntFilter<"PopularDeal"> | number
+    image?: StringFilter<"PopularDeal"> | string
+    position?: IntFilter<"PopularDeal"> | number
+  }, "id">
+
+  export type PopularDealOrderByWithAggregationInput = {
+    id?: SortOrder
+    gameSlug?: SortOrder
+    title?: SortOrder
+    dealName?: SortOrder
+    badge?: SortOrder
+    instant?: SortOrder
+    soldCount?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    image?: SortOrder
+    position?: SortOrder
+    _count?: PopularDealCountOrderByAggregateInput
+    _avg?: PopularDealAvgOrderByAggregateInput
+    _max?: PopularDealMaxOrderByAggregateInput
+    _min?: PopularDealMinOrderByAggregateInput
+    _sum?: PopularDealSumOrderByAggregateInput
+  }
+
+  export type PopularDealScalarWhereWithAggregatesInput = {
+    AND?: PopularDealScalarWhereWithAggregatesInput | PopularDealScalarWhereWithAggregatesInput[]
+    OR?: PopularDealScalarWhereWithAggregatesInput[]
+    NOT?: PopularDealScalarWhereWithAggregatesInput | PopularDealScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PopularDeal"> | number
+    gameSlug?: StringWithAggregatesFilter<"PopularDeal"> | string
+    title?: StringWithAggregatesFilter<"PopularDeal"> | string
+    dealName?: StringWithAggregatesFilter<"PopularDeal"> | string
+    badge?: StringWithAggregatesFilter<"PopularDeal"> | string
+    instant?: BoolWithAggregatesFilter<"PopularDeal"> | boolean
+    soldCount?: StringWithAggregatesFilter<"PopularDeal"> | string
+    oldPrice?: IntWithAggregatesFilter<"PopularDeal"> | number
+    price?: IntWithAggregatesFilter<"PopularDeal"> | number
+    image?: StringWithAggregatesFilter<"PopularDeal"> | string
+    position?: IntWithAggregatesFilter<"PopularDeal"> | number
+  }
+
   export type CatalogGameCreateInput = {
     slug: string
     name: string
@@ -3518,6 +4836,101 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     gameId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PopularDealCreateInput = {
+    gameSlug: string
+    title: string
+    dealName: string
+    badge: string
+    instant?: boolean
+    soldCount: string
+    oldPrice: number
+    price: number
+    image: string
+    position?: number
+  }
+
+  export type PopularDealUncheckedCreateInput = {
+    id?: number
+    gameSlug: string
+    title: string
+    dealName: string
+    badge: string
+    instant?: boolean
+    soldCount: string
+    oldPrice: number
+    price: number
+    image: string
+    position?: number
+  }
+
+  export type PopularDealUpdateInput = {
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dealName?: StringFieldUpdateOperationsInput | string
+    badge?: StringFieldUpdateOperationsInput | string
+    instant?: BoolFieldUpdateOperationsInput | boolean
+    soldCount?: StringFieldUpdateOperationsInput | string
+    oldPrice?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PopularDealUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dealName?: StringFieldUpdateOperationsInput | string
+    badge?: StringFieldUpdateOperationsInput | string
+    instant?: BoolFieldUpdateOperationsInput | boolean
+    soldCount?: StringFieldUpdateOperationsInput | string
+    oldPrice?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PopularDealCreateManyInput = {
+    id?: number
+    gameSlug: string
+    title: string
+    dealName: string
+    badge: string
+    instant?: boolean
+    soldCount: string
+    oldPrice: number
+    price: number
+    image: string
+    position?: number
+  }
+
+  export type PopularDealUpdateManyMutationInput = {
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dealName?: StringFieldUpdateOperationsInput | string
+    badge?: StringFieldUpdateOperationsInput | string
+    instant?: BoolFieldUpdateOperationsInput | boolean
+    soldCount?: StringFieldUpdateOperationsInput | string
+    oldPrice?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PopularDealUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dealName?: StringFieldUpdateOperationsInput | string
+    badge?: StringFieldUpdateOperationsInput | string
+    instant?: BoolFieldUpdateOperationsInput | boolean
+    soldCount?: StringFieldUpdateOperationsInput | string
+    oldPrice?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    image?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3672,6 +5085,75 @@ export namespace Prisma {
     gameId?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type PopularDealCountOrderByAggregateInput = {
+    id?: SortOrder
+    gameSlug?: SortOrder
+    title?: SortOrder
+    dealName?: SortOrder
+    badge?: SortOrder
+    instant?: SortOrder
+    soldCount?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    image?: SortOrder
+    position?: SortOrder
+  }
+
+  export type PopularDealAvgOrderByAggregateInput = {
+    id?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    position?: SortOrder
+  }
+
+  export type PopularDealMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gameSlug?: SortOrder
+    title?: SortOrder
+    dealName?: SortOrder
+    badge?: SortOrder
+    instant?: SortOrder
+    soldCount?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    image?: SortOrder
+    position?: SortOrder
+  }
+
+  export type PopularDealMinOrderByAggregateInput = {
+    id?: SortOrder
+    gameSlug?: SortOrder
+    title?: SortOrder
+    dealName?: SortOrder
+    badge?: SortOrder
+    instant?: SortOrder
+    soldCount?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    image?: SortOrder
+    position?: SortOrder
+  }
+
+  export type PopularDealSumOrderByAggregateInput = {
+    id?: SortOrder
+    oldPrice?: SortOrder
+    price?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type CatalogOfferCreateNestedManyWithoutGameInput = {
     create?: XOR<CatalogOfferCreateWithoutGameInput, CatalogOfferUncheckedCreateWithoutGameInput> | CatalogOfferCreateWithoutGameInput[] | CatalogOfferUncheckedCreateWithoutGameInput[]
     connectOrCreate?: CatalogOfferCreateOrConnectWithoutGameInput | CatalogOfferCreateOrConnectWithoutGameInput[]
@@ -3738,6 +5220,10 @@ export namespace Prisma {
     upsert?: CatalogGameUpsertWithoutOffersInput
     connect?: CatalogGameWhereUniqueInput
     update?: XOR<XOR<CatalogGameUpdateToOneWithWhereWithoutOffersInput, CatalogGameUpdateWithoutOffersInput>, CatalogGameUncheckedUpdateWithoutOffersInput>
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -3807,6 +5293,19 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CatalogOfferCreateWithoutGameInput = {

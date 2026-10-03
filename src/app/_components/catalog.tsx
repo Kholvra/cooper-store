@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
+import { useSearchParams } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { getGameAsset } from "~/shared/game-assets";
 import { OfferCard } from "~/app/_components/offer-card";
 import { catalogMetadata } from "~/shared/catalog-metadata";
 import type { CatalogGame } from "~/server/catalog-data";
@@ -31,13 +33,21 @@ const currencyFormatter = new Intl.NumberFormat("id-ID", {
 export function Catalog() {
   const [games, setGames] = useState<CatalogGameFromDatabase[]>([]);
   const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const urlGame = searchParams.get("game");
+  const [selectedGameSlug, setSelectedGameSlug] = useState<string | null>(urlGame);
+
+  useEffect(() => {
+    if (urlGame) {
+      setSelectedGameSlug(urlGame);
+    }
+  }, [urlGame]);
   const [selectedOffer, setSelectedOffer] =
     useState<SelectedOfferContext | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [retryNumber, setRetryNumber] = useState(0);
   const [handoffError, setHandoffError] = useState<string | null>(null);
-
   useEffect(() => {
     let isActive = true;
 
@@ -102,6 +112,23 @@ export function Catalog() {
     });
   }, [games, query]);
 
+  const activeGame = useMemo(() => {
+    if (!selectedGameSlug) return null;
+    return games.find((g) => g.slug === selectedGameSlug) || null;
+  }, [games, selectedGameSlug]);
+
+  function handleSelectGame(slug: string) {
+    setSelectedGameSlug(slug);
+    setSelectedOffer(null);
+    setHandoffError(null);
+  }
+
+  function handleBackToGames() {
+    setSelectedGameSlug(null);
+    setSelectedOffer(null);
+    setHandoffError(null);
+  }
+
   function continueToCheckout() {
     if (!selectedOffer) return;
 
@@ -117,28 +144,32 @@ export function Catalog() {
       );
     }
   }
-
   return (
     <main className={`storefront${selectedOffer ? " has-selection" : ""}`}>
       <header className="store-header">
-        <a className="store-name" href="/" aria-label="Katalog game">
-          Katalog game
+        <a className="store-name" href="/" aria-label="cooper-store">
+          cooper-store
         </a>
         <span className="header-note">Top-up dan voucher game</span>
       </header>
 
       <div className="catalog-heading">
         <div>
-          <p className="page-kicker">Pilih game, lalu bandingkan paket</p>
-          <h1>Temukan paket yang sesuai</h1>
+          <p className="page-kicker">
+            {activeGame ? `Katalog Paket · ${activeGame.name}` : "Pilih Game Terlebih Dahulu"}
+          </p>
+          <h1>{activeGame ? `Pilih Nominal ${activeGame.slug === "roblox" ? "Voucher" : activeGame.currency}` : "Katalog Top-Up Game"}</h1>
           <p className="heading-description">
-            Sembilan pilihan game dengan paket dari transkripsi daftar harga.
+            {activeGame
+              ? `Pilih paket ${activeGame.name} untuk melanjutkan ke simulasi pembayaran.`
+              : "Pilih game favorit Anda untuk melihat daftar paket dan nominal harga."}
           </p>
         </div>
         <p className="price-disclaimer">
           Harga adalah referensi transkripsi, bukan konfirmasi harga resmi atau terbaru.
         </p>
       </div>
+
 
       <label className="search-field">
         <span>Cari game atau paket</span>
@@ -166,7 +197,7 @@ export function Catalog() {
         <section className="game-directory" aria-label="Daftar game dan paket">
           {isLoading ? (
             <p className="state-message" role="status">
-              Memuat daftar game dan paket…
+              Memuat katalog game…
             </p>
           ) : loadError ? (
             <div className="state-message error-state" role="alert">
@@ -179,81 +210,140 @@ export function Catalog() {
                 Coba muat ulang
               </button>
             </div>
-          ) : filteredGames.length === 0 ? (
-            <div className="state-message empty-state" role="status">
-              <h2>Tidak ada paket yang cocok</h2>
-              <p>Ubah kata pencarian atau tampilkan kembali semua game.</p>
-              <button
-                className="secondary-button"
-                type="button"
-                onClick={() => setQuery("")}
-              >
-                Tampilkan semua game
-              </button>
+          ) : !activeGame ? (
+            /* STAGE 1: GAME GRID SELECTION */
+            <div className="game-selection-stage">
+              {filteredGames.length === 0 ? (
+                <div className="state-message empty-state" role="status">
+                  <h2>Tidak ada game yang cocok</h2>
+                  <p>Ubah kata pencarian atau tampilkan kembali semua game.</p>
+                  <button
+                    className="secondary-button mt-4"
+                    type="button"
+                    onClick={() => setQuery("")}
+                  >
+                    Tampilkan semua game
+                  </button>
+                </div>
+              ) : (
+                <div className="game-tiles-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredGames.map((game) => {
+                    const asset = getGameAsset(game.slug);
+                    return (
+                      <button
+                        key={game.slug}
+                        type="button"
+                        onClick={() => handleSelectGame(game.slug)}
+                        className="game-tile-card group p-4 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-[var(--radius-card)] text-left transition flex items-center gap-4 shadow-[var(--shadow-card)] cursor-pointer"
+                      >
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-[var(--color-surface-raised)] border border-[var(--color-border)] shrink-0 group-hover:scale-105 transition-transform duration-200">
+                          <img
+                            src={asset.logo}
+                            alt={game.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h2 className="text-base font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition truncate">
+                            {game.name}
+                          </h2>
+                          <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+                            {game.slug === "roblox"
+                              ? "Voucher Gift Card"
+                              : `Top-Up · ${game.currency}`}
+                          </p>
+                          <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-[var(--color-accent)]">
+                            <span>{game.offers.length} Nominal Pilihan</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ) : (
-            <div className="game-list">
-              {filteredGames.map((game) => (
-                <section className="game-section" key={game.slug}>
-                  <div className="game-heading">
-                    <div>
-                      <h2>
-                        {game.name}
-                        {game.slug === "mlbb" && <span> (MLBB)</span>}
-                      </h2>
-                      <p>
-                        {game.slug === "roblox"
-                          ? "Voucher: Robux / Gift Card IDR"
-                          : game.currency}
-                      </p>
-                    </div>
-                    <span className="offer-count">
-                      {game.offers.length} paket
+            /* STAGE 2: OFFERS / DIAMONDS FOR SELECTED GAME */
+            <div className="game-offers-stage">
+              <div className="game-selected-banner bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-[var(--color-surface-raised)] border border-[var(--color-border)] shrink-0">
+                    <img
+                      src={getGameAsset(activeGame.slug).logo}
+                      alt={activeGame.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-[var(--color-accent)] font-semibold">
+                      Game Terpilih
                     </span>
-                  </div>
-
-                  {game.slug === "mlbb" && (
-                    <p className="source-gap">
-                      {catalogMetadata.mlbbGapDisclosure}
+                    <h2 className="text-xl font-bold text-[var(--color-text-primary)] mt-0.5">
+                      {activeGame.name}
+                    </h2>
+                    <p className="text-xs text-[var(--color-text-secondary)]">
+                      {activeGame.slug === "roblox"
+                        ? "Voucher: Robux / Gift Card IDR"
+                        : `Top-Up · ${activeGame.currency}`}
                     </p>
-                  )}
-
-                  <div className="offer-list">
-                    {game.offers.map((offer) => {
-                      const isSelected =
-                        selectedOffer !== null &&
-                        selectedOffer.gameSlug === game.slug &&
-                        selectedOffer.offerId === offer.id;
-                      return (
-                        <OfferCard
-                          key={offer.id}
-                          label={offer.label}
-                          currency={game.slug === "roblox" ? "Voucher" : game.currency}
-                          price={offer.price}
-                          selected={isSelected}
-                          onSelect={() => {
-                            setSelectedOffer({
-                              version: 1,
-                              gameSlug: game.slug,
-                              gameName: game.name,
-                              currency: game.currency,
-                              kind: game.slug === "roblox" ? "voucher" : "top-up",
-                              offerId: offer.id,
-                              offerLabel: offer.label,
-                              price: offer.price,
-                            });
-                            setHandoffError(null);
-                          }}
-                        />
-                      );
-                    })}
                   </div>
-                </section>
-              ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={handleBackToGames}
+                  className="secondary-button text-xs flex items-center gap-1.5"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Ganti Game</span>
+                </button>
+              </div>
+
+              {activeGame.slug === "mlbb" && (
+                <p className="source-gap mb-6 p-4 rounded-[var(--radius-control)] bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-sm text-[var(--color-warning)]">
+                  {catalogMetadata.mlbbGapDisclosure}
+                </p>
+              )}
+
+              <div className="offers-grid-container">
+                <h3 className="text-lg font-semibold mb-4 text-[var(--color-text-primary)]">
+                  Pilih Nominal {activeGame.slug === "roblox" ? "Voucher" : activeGame.currency}
+                </h3>
+                <div className="offer-list">
+                  {activeGame.offers.map((offer) => {
+                    const isSelected =
+                      selectedOffer !== null &&
+                      selectedOffer.gameSlug === activeGame.slug &&
+                      selectedOffer.offerId === offer.id;
+                    return (
+                      <OfferCard
+                        key={offer.id}
+                        label={offer.label}
+                        currency={activeGame.slug === "roblox" ? "Voucher" : activeGame.currency}
+                        price={offer.price}
+                        selected={isSelected}
+                        itemIcon={getGameAsset(activeGame.slug).item}
+                        onSelect={() => {
+                          setSelectedOffer({
+                            version: 1,
+                            gameSlug: activeGame.slug,
+                            gameName: activeGame.name,
+                            currency: activeGame.currency,
+                            kind: activeGame.slug === "roblox" ? "voucher" : "top-up",
+                            offerId: offer.id,
+                            offerLabel: offer.label,
+                            price: offer.price,
+                          });
+                          setHandoffError(null);
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </section>
-
         <aside
           className="selection-panel"
           data-selected={selectedOffer ? "true" : "false"}

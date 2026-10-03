@@ -1,10 +1,12 @@
 import "~/styles/globals.css";
 import { type Metadata } from "next";
-
 export const metadata: Metadata = {
-  title: "Simulasi Katalog & Top-Up Game (Hanya Simulasi)",
+  title: {
+    default: "cooper-store — Simulasi Top-Up & Voucher Game",
+    template: "%s | cooper-store",
+  },
   description: "Platform simulasi katalog dan transaksi top-up game lokal non-komersial (hanya simulasi, tanpa pembayaran nyata, jaringan, atau verifikasi akun).",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  applicationName: "cooper-store",
 };
 
 export default function RootLayout({
