@@ -254,46 +254,53 @@ export function LandingPage() {
           )}
         </section>
 
-        {/* Feature Value Props Banners (Money-Back Guarantee & 24/7 Support) */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
+        {/* Value Proposition Cards */}
+        <section aria-labelledby="features-heading" className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <h2 id="features-heading" className="sr-only">Keunggulan Layanan</h2>
+          <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-6 md:p-7 flex flex-col justify-between hover:border-[var(--color-border-control)] transition shadow-[var(--shadow-card)]">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl mb-4">
-                <ShieldCheck className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-accent)] flex items-center justify-center mb-4">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold font-[var(--font-heading)] text-amber-200">
+              <h3 className="text-lg font-bold font-[var(--font-heading)] text-[var(--color-text-primary)]">
                 Jaminan Simulasi Transparan
               </h3>
-              <p className="text-xs text-amber-200/70 mt-2 leading-relaxed">
-                Platform ini menyediakan simulasi alur checkout dan kalkulasi harga transkripsi secara akurat dan aman tanpa memungut pembayaran nyata.
+              <p className="text-sm text-[var(--color-text-secondary)] mt-2 leading-relaxed">
+                Platform ini menyajikan simulasi alur checkout dan kalkulasi harga secara akurat tanpa memungut pembayaran nyata.
               </p>
             </div>
-            <Link
-              href="/catalog"
-            >
-              <span>Pelajari Alur Simulasi</span>
-              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </Link>
+            <div className="mt-6 pt-4 border-t border-[var(--color-border)]">
+              <Link
+                href="/catalog"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--color-accent)] hover:underline"
+              >
+                <span>Pelajari Alur Simulasi</span>
+                <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
-          <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
+          <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-6 md:p-7 flex flex-col justify-between hover:border-[var(--color-border-control)] transition shadow-[var(--shadow-card)]">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl mb-4">
-                <Zap className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-success)] flex items-center justify-center mb-4">
+                <Zap className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold font-[var(--font-heading)] text-emerald-200">
-                Nota & Pelacakan Seketika
+              <h3 className="text-lg font-bold font-[var(--font-heading)] text-[var(--color-text-primary)]">
+                Nota &amp; Pelacakan Seketika
               </h3>
-              <p className="text-xs text-emerald-200/70 mt-2 leading-relaxed">
+              <p className="text-sm text-[var(--color-text-secondary)] mt-2 leading-relaxed">
                 Dapatkan nota faktur otomatis langsung setelah konfirmasi simulasi selesai dengan pelacakan status bertahap secara real-time.
               </p>
             </div>
-            <Link
-              href="/checkout"
-            >
-              <span>Cek Halaman Checkout</span>
-              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </Link>
+            <div className="mt-6 pt-4 border-t border-[var(--color-border)]">
+              <Link
+                href="/checkout"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--color-accent)] hover:underline"
+              >
+                <span>Cek Halaman Checkout</span>
+                <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </section>
       </main>

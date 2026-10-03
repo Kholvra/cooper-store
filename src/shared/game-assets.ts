@@ -68,8 +68,8 @@ export function getGameAsset(slug: string): GameAssetConfig {
     gameAssetsMap[slug] || {
       slug,
       name: slug,
-      logo: "/favicon.ico",
-      item: "/favicon.ico",
+      logo: "",
+      item: "",
     }
   );
 }
