@@ -2,6 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import {
+  Search,
+  Headphones,
+  Zap,
+  ShoppingCart,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
 import { getGameAsset } from "~/shared/game-assets";
 import type { CatalogGame } from "~/server/catalog-data";
 
@@ -17,16 +25,34 @@ const currencyFormatter = new Intl.NumberFormat("id-ID", {
   maximumFractionDigits: 0,
 });
 
+interface PopularDealFromDatabase {
+  id: number;
+  gameSlug: string;
+  title: string;
+  dealName: string;
+  badge: string;
+  instant: boolean;
+  soldCount: string;
+  oldPrice: number;
+  price: number;
+  image: string;
+  position: number;
+}
+
 export function LandingPage() {
   const [games, setGames] = useState<CatalogGameFromDatabase[]>([]);
+  const [popularDeals, setPopularDeals] = useState<PopularDealFromDatabase[]>([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/catalog", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setGames(data);
+    Promise.all([
+      fetch("/api/catalog", { cache: "no-store" }).then((res) => res.json()),
+      fetch("/api/deals", { cache: "no-store" }).then((res) => res.json()),
+    ])
+      .then(([catalogData, dealsData]) => {
+        if (Array.isArray(catalogData)) setGames(catalogData);
+        if (Array.isArray(dealsData)) setPopularDeals(dealsData);
       })
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false));
@@ -37,57 +63,6 @@ export function LandingPage() {
     const lower = query.toLowerCase();
     return games.filter((g) => g.name.toLowerCase().includes(lower));
   }, [games, query]);
-
-  // Featured popular deals
-  const popularDeals = useMemo(() => {
-    const deals = [
-      {
-        slug: "mlbb",
-        title: "Mobile Legends",
-        dealName: "Weekly Diamond Pass",
-        badge: "-25%",
-        instant: true,
-        soldCount: "42.9k+ Terjual",
-        oldPrice: 38000,
-        price: 28500,
-        image: "/games/mlbb%20weekly%20Item.jpg",
-      },
-      {
-        slug: "free-fire",
-        title: "Free Fire",
-        dealName: "140 Diamond",
-        badge: "-30%",
-        instant: true,
-        soldCount: "18.1k+ Terjual",
-        oldPrice: 28000,
-        price: 19500,
-        image: "/games/Freefire%20diamond.jpg",
-      },
-      {
-        slug: "genshin-impact",
-        title: "Genshin Impact",
-        dealName: "Blessing of the Welkin Moon",
-        badge: "-15%",
-        instant: true,
-        soldCount: "9.4k+ Terjual",
-        oldPrice: 89000,
-        price: 79000,
-        image: "/games/Genshin%20Impact%20item.jpg",
-      },
-      {
-        slug: "roblox",
-        title: "Roblox",
-        dealName: "Robux Gift Card Voucher",
-        badge: "-20%",
-        instant: true,
-        soldCount: "12.8k+ Terjual",
-        oldPrice: 65000,
-        price: 52000,
-        image: "/games/mlbb%20twilight%20item.jpg",
-      },
-    ];
-    return deals;
-  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] font-[var(--font-sans)]">
@@ -128,15 +103,16 @@ export function LandingPage() {
                 placeholder="Cari game, diamonds, atau voucher..."
                 className="w-full bg-[var(--color-surface)] border border-[var(--color-border-control)] rounded-full px-4 py-2 pl-10 text-xs text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-border-focus)] focus:outline-none transition"
               />
-              <span className="absolute left-3.5 top-2.5 text-[var(--color-text-tertiary)] text-xs" aria-hidden="true">
-                🔍
+              <span className="absolute left-3.5 top-2.5 text-[var(--color-text-tertiary)] flex items-center" aria-hidden="true">
+                <Search className="w-3.5 h-3.5" />
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]">
-              <span>🎧 Layanan 24/7</span>
+              <Headphones className="w-3.5 h-3.5 text-[var(--color-accent)]" />
+              <span>Layanan 24/7</span>
             </div>
             <Link
               href="/catalog"
@@ -169,19 +145,20 @@ export function LandingPage() {
                 className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-card)] overflow-hidden shadow-[var(--shadow-card)] flex flex-col justify-between hover:border-[var(--color-accent)] transition group"
               >
                 {/* Visual header with badge */}
-                <div className="relative h-40 bg-[var(--color-surface-raised)] overflow-hidden">
+                <div className="relative h-40 bg-[var(--color-surface-raised)] overflow-hidden flex items-center justify-center p-4">
                   <img
                     src={deal.image}
                     alt={deal.dealName}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
                   />
                   <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
                     <span className="bg-emerald-500 text-black text-[10px] font-black px-1.5 py-0.5 rounded">
                       {deal.badge}
                     </span>
                     {deal.instant && (
-                      <span className="bg-[var(--color-accent)] text-black text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5">
-                        ⚡ Instant
+                      <span className="bg-[var(--color-accent)] text-black text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-1">
+                        <Zap className="w-3 h-3 fill-current" />
+                        Instant
                       </span>
                     )}
                   </div>
@@ -208,11 +185,11 @@ export function LandingPage() {
                   </div>
 
                   <Link
-                    href={`/catalog?game=${deal.slug}`}
+                    href={`/catalog?game=${deal.gameSlug}`}
                     className="mt-4 w-full py-2.5 px-3 rounded-[var(--radius-control)] bg-[var(--color-accent)] text-[var(--color-on-accent)] hover:bg-[var(--color-accent-hover)] font-bold text-xs text-center flex items-center justify-center gap-1.5 transition"
                   >
                     <span>Beli Sekarang</span>
-                    <span aria-hidden="true">🛒</span>
+                    <ShoppingCart className="w-3.5 h-3.5" aria-hidden="true" />
                   </Link>
                 </div>
               </div>
@@ -236,7 +213,7 @@ export function LandingPage() {
               className="text-xs font-semibold text-[var(--color-accent)] hover:underline flex items-center gap-1"
             >
               <span>Lihat Semua Katalog</span>
-              <span aria-hidden="true">→</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
           </div>
 
@@ -282,7 +259,7 @@ export function LandingPage() {
           <div className="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
             <div>
               <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl mb-4">
-                🛡️
+                <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold font-[var(--font-heading)] text-amber-200">
                 Jaminan Simulasi Transparan
@@ -293,16 +270,16 @@ export function LandingPage() {
             </div>
             <Link
               href="/catalog"
-              className="mt-6 inline-flex items-center gap-2 text-xs font-bold text-amber-400 hover:text-amber-300"
             >
-              Pelajari Alur Simulasi →
+              <span>Pelajari Alur Simulasi</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
           </div>
 
           <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
             <div>
               <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl mb-4">
-                ⚡
+                <Zap className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold font-[var(--font-heading)] text-emerald-200">
                 Nota & Pelacakan Seketika
@@ -313,9 +290,9 @@ export function LandingPage() {
             </div>
             <Link
               href="/checkout"
-              className="mt-6 inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300"
             >
-              Cek Halaman Checkout →
+              <span>Cek Halaman Checkout</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
           </div>
         </section>

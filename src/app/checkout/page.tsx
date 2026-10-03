@@ -560,7 +560,8 @@ export default function CheckoutPage() {
                 ref={submitButtonRef}
                 type="button"
                 onClick={() => dispatch({ type: "openConfirmation" })}
-                className="w-full font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] transition min-h-[48px] bg-[var(--color-accent)] text-[#111216] hover:bg-[var(--color-accent-hover)] cursor-pointer shadow-md active:translate-y-px"
+                className="primary-button !text-[#111216] font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] shadow-md active:translate-y-px transition min-h-[48px] cursor-pointer"
+                style={{ color: "#111216" }}
               >
                 Buat pesanan simulasi
               </button>
@@ -635,7 +636,8 @@ export default function CheckoutPage() {
           <button
             type="button"
             onClick={handleConfirmSimulation}
-            className="flex-1 bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px] cursor-pointer shadow-sm"
+            className="primary-button flex-1 !text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] shadow-sm transition min-h-[44px] cursor-pointer"
+            style={{ color: "#111216" }}
           >
             Konfirmasi simulasi
           </button>

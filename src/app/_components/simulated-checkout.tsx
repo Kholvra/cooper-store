@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useReducer, useState, useRef, useEffect } from "react";
+import { Check, X, AlertTriangle } from "lucide-react";
 import {
   createCheckoutState,
   checkoutReducer,
@@ -79,11 +80,11 @@ export function SimulatedCheckout() {
           <div className="flex items-center gap-3 mb-4">
             {state.result.outcome === "success" ? (
               <div className="w-10 h-10 rounded-full bg-[var(--color-success-subtle)] text-[var(--color-success)] flex items-center justify-center font-bold text-xl" aria-hidden="true">
-                ✓
+                <Check className="w-5 h-5 stroke-[2.5]" />
               </div>
             ) : (
               <div className="w-10 h-10 rounded-full bg-[var(--color-danger-subtle)] text-[var(--color-danger)] flex items-center justify-center font-bold text-xl" aria-hidden="true">
-                ✕
+                <X className="w-5 h-5 stroke-[2.5]" />
               </div>
             )}
             <div>
@@ -217,8 +218,9 @@ export function SimulatedCheckout() {
                 })}
               </div>
               {state.errors.offer && (
-                <p id="error-offer" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1">
-                  <span>⚠️</span> {state.errors.offer}
+                <p id="error-offer" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>{state.errors.offer}</span>
                 </p>
               )}
             </section>
@@ -260,8 +262,9 @@ export function SimulatedCheckout() {
                           }`}
                         />
                         {error && (
-                          <p id={`error-${field.key}`} className="text-xs text-[var(--color-danger)] mt-1 flex items-center gap-1">
-                            <span>⚠️</span> {error}
+                          <p id={`error-${field.key}`} className="text-xs text-[var(--color-danger)] mt-1 flex items-center gap-1.5">
+                            <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                            <span>{error}</span>
                           </p>
                         )}
                       </div>
@@ -310,8 +313,9 @@ export function SimulatedCheckout() {
                 })}
               </div>
               {state.errors.paymentMethod && (
-                <p id="error-paymentMethod" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1">
-                  <span>⚠️</span> {state.errors.paymentMethod}
+                <p id="error-paymentMethod" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>{state.errors.paymentMethod}</span>
                 </p>
               )}
             </section>
@@ -345,8 +349,9 @@ export function SimulatedCheckout() {
                 })}
               </div>
               {state.errors.outcome && (
-                <p id="error-outcome" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1">
-                  <span>⚠️</span> {state.errors.outcome}
+                <p id="error-outcome" className="text-sm text-[var(--color-danger)] mt-3 flex items-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>{state.errors.outcome}</span>
                 </p>
               )}
             </section>
@@ -399,7 +404,8 @@ export function SimulatedCheckout() {
                 ref={submitButtonRef}
                 type="button"
                 onClick={() => dispatch({ type: "openConfirmation" })}
-                className="w-full font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] transition min-h-[48px] bg-[var(--color-accent)] text-[#111216] hover:bg-[var(--color-accent-hover)] cursor-pointer shadow-md active:translate-y-px"
+                className="primary-button !text-[#111216] font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] shadow-md active:translate-y-px transition min-h-[48px] cursor-pointer"
+                style={{ color: "#111216" }}
               >
                 Buat pesanan
               </button>
@@ -468,7 +474,8 @@ export function SimulatedCheckout() {
           <button
             type="button"
             onClick={() => dispatch({ type: "confirm" })}
-            className="flex-1 bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px] cursor-pointer shadow-sm"
+            className="primary-button flex-1 !text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] shadow-sm transition min-h-[44px] cursor-pointer"
+            style={{ color: "#111216" }}
           >
             Konfirmasi simulasi
           </button>

@@ -34,8 +34,8 @@ export const gameAssetsMap: Record<string, GameAssetConfig> = {
   roblox: {
     slug: "roblox",
     name: "Roblox",
-    logo: "/games/mlbb%20weekly%20Item.jpg", // fallback/badge
-    item: "/games/mlbb%20weekly%20Item.jpg",
+    logo: "/games/Roblox%20img.jpg",
+    item: "/games/roblox%20item.jpg",
   },
   valorant: {
     slug: "valorant",

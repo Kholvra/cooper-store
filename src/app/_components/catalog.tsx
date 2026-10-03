@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getGameAsset } from "~/shared/game-assets";
-
 import { OfferCard } from "~/app/_components/offer-card";
 import { catalogMetadata } from "~/shared/catalog-metadata";
 import type { CatalogGame } from "~/server/catalog-data";
@@ -170,17 +170,6 @@ export function Catalog() {
         </p>
       </div>
 
-      {activeGame && (
-        <div className="game-nav-back mb-6">
-          <button
-            type="button"
-            onClick={handleBackToGames}
-            className="back-game-button secondary-button inline-flex items-center gap-2"
-          >
-            <span aria-hidden="true">←</span> Ganti Pilihan Game
-          </button>
-        </div>
-      )}
 
       <label className="search-field">
         <span>Cari game atau paket</span>
@@ -263,8 +252,9 @@ export function Catalog() {
                               ? "Voucher Gift Card"
                               : `Top-Up · ${game.currency}`}
                           </p>
-                          <span className="inline-block mt-2 text-[11px] font-semibold text-[var(--color-accent)]">
-                            {game.offers.length} Nominal Pilihan →
+                          <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-[var(--color-accent)]">
+                            <span>{game.offers.length} Nominal Pilihan</span>
+                            <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </button>
@@ -302,9 +292,10 @@ export function Catalog() {
                 <button
                   type="button"
                   onClick={handleBackToGames}
-                  className="secondary-button text-xs"
+                  className="secondary-button text-xs flex items-center gap-1.5"
                 >
-                  ← Ganti Game
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Ganti Game</span>
                 </button>
               </div>
 
@@ -331,6 +322,7 @@ export function Catalog() {
                         currency={activeGame.slug === "roblox" ? "Voucher" : activeGame.currency}
                         price={offer.price}
                         selected={isSelected}
+                        itemIcon={getGameAsset(activeGame.slug).item}
                         onSelect={() => {
                           setSelectedOffer({
                             version: 1,
