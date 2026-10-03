@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "project": "exasti-case-study-product-app",
+  "rules": [
+    {
+      "id": "ARCH-SEC-001",
+      "title": "Keep secrets and private keys out of source control",
+      "kind": "forbidden-path",
+      "severity": "block",
+      "source": "SECURITY-BASELINE",
+      "paths": [
+        "**/.env",
+        "**/*.pem",
+        "**/*.key",
+        "**/secrets.*"
+      ],
+      "modes": [
+        "preflight",
+        "task-check",
+        "landing-check"
+      ],
+      "message": "Store secrets securely outside repository source control."
+    },
+    {
+      "id": "ARCH-SCO-001",
+      "title": "Prevent real payment gateway integrations outside simulated scope",
+      "kind": "forbidden-pattern",
+      "severity": "block",
+      "source": "docs/product/backlog.md#stop-rethink-condition",
+      "scope": [
+        "src/**/*"
+      ],
+      "modes": [
+        "preflight",
+        "task-check",
+        "landing-check"
+      ],
+      "pattern": "live_payment_gateway|real_stripe_charge|production_credit_card",
+      "flags": [
+        "ignorecase"
+      ],
+      "message": "Storefront is restricted to simulated checkout per REQ-003 and product backlog stop conditions."
+    },
+    {
+      "id": "ARCH-SCO-002",
+      "title": "Prevent persistent user account storage outside session-only scope",
+      "kind": "forbidden-pattern",
+      "severity": "block",
+      "source": "docs/product/backlog.md#stop-rethink-condition",
+      "scope": [
+        "src/**/*"
+      ],
+      "modes": [
+        "preflight",
+        "task-check",
+        "landing-check"
+      ],
+      "pattern": "persistent_user_account|database_user_table|server_side_user_auth",
+      "flags": [
+        "ignorecase"
+      ],
+      "message": "Storefront uses session-only state and simulated checkout per REQ-003/REQ-004."
+    }
+  ],
+  "baseline": []
+}

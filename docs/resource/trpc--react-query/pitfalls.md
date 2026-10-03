@@ -1,0 +1,12 @@
+# Known Pitfalls & Gotchas
+
+| Scenario | Risk or surprising behavior | Required handling | Evidence |
+|---|---|---|---|
+| QueryClient singleton on SSR | User caches can be shared across requests. | Create a new QueryClient per server request; keep stable singleton only in browser. | [Web: TanStack SSR setup](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr); [Code] `src/trpc/react.tsx:13-22` |
+| Provider/client recreated per render | Cache resets or repeated client setup. | Persist instances with framework-appropriate singleton/state pattern. | [Web: React integration](https://trpc.io/docs/client/react), v11.x |
+| Wrong AppRouter import | Runtime server modules can enter client bundle. | `import type { AppRouter }` only. | [Web: routers](https://trpc.io/docs/server/routers), v11.x |
+| Query invalidation | Stale cache remains visible or excessive broad refetch occurs. | Invalidate the specific typed path/input after successful mutation; await if follow-up depends on freshness. | [Web: useUtils](https://trpc.io/docs/client/react/useUtils), v11.x |
+| Query/mutation result assumptions | TanStack Query status/data semantics vary by hook (especially suspense/infinite). | Handle pending/error states; consult matching hook docs and types rather than assume `data` is always present. | [Web: useQuery](https://trpc.io/docs/client/react/useQuery), [suspense](https://trpc.io/docs/client/react/suspense), v11.x |
+| Subscription teardown | Leaving component without unsubscribing may retain transport/listeners; exact lifecycle depends on adapter. | Use hook lifecycle and configured transport; verify teardown/reconnect behavior for chosen adapter. | [Web: useSubscription](https://trpc.io/docs/client/react/useSubscription), v11.x |
+| Classic vs TanStack integration package | APIs/provider setup differ; snippets for `@trpc/tanstack-react-query` do not directly apply to `@trpc/react-query`. | Follow classic React docs and package imports for this repo. | [Web: classic integration](https://trpc.io/docs/client/react); [TanStack integration](https://trpc.io/docs/client/tanstack-react-query/setup), v11.x |
+| Mixing QueryClient instances | tRPC context provider and TanStack `QueryClientProvider` may refer to different caches. | Pass the same QueryClient to both providers. | [Web: React integration](https://trpc.io/docs/client/react), v11.x; `[Code]` `src/trpc/react.tsx:66-68` |
