@@ -347,19 +347,34 @@ export default function CheckoutPage() {
             </button>
           </div>
         ) : receiptState.active ? (
-          <div className="receipt-view max-w-2xl mx-auto space-y-6">
-            <SimulationProgressView progress={receiptState.progress} />
+          <div className="receipt-view max-w-xl mx-auto space-y-6">
+            {receiptState.status === "progress" && (
+              <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-8 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full border-2 border-[var(--color-accent)] border-t-transparent animate-spin mx-auto" />
+                <h2 className="text-xl font-bold font-[var(--font-heading)]">Memproses Transaksi Simulasi</h2>
+                <p className="text-xs text-[var(--color-text-secondary)]">
+                  Status: <span className="text-[var(--color-accent)] font-semibold">{receiptState.progress.status}</span>
+                </p>
+              </div>
+            )}
 
             {receiptState.status === "success" && receiptState.nota && (
               <div className="space-y-6">
                 <SuccessNota nota={receiptState.nota} />
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <Link
                     href="/"
-                    className="flex-1 text-center bg-[var(--color-surface-raised)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition"
+                    className="flex-1 text-center bg-[var(--color-accent)] text-[#111216] font-bold py-3.5 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition shadow-sm"
                   >
-                    Kembali ke Katalog
+                    Beli Paket Lain 🛒
                   </Link>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="sm:w-auto px-5 bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3.5 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition"
+                  >
+                    Cetak / Simpan
+                  </button>
                 </div>
               </div>
             )}
@@ -384,9 +399,9 @@ export default function CheckoutPage() {
                 <div className="flex gap-4">
                   <Link
                     href="/"
-                    className="flex-1 text-center bg-[var(--color-surface-raised)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition"
+                    className="flex-1 text-center bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition"
                   >
-                    Kembali ke Katalog
+                    Kembali ke Beranda
                   </Link>
                 </div>
               </div>

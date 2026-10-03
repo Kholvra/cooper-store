@@ -171,27 +171,29 @@ export function Catalog() {
       </div>
 
 
-      <label className="search-field">
-        <span>Cari game atau paket</span>
-        <span className="search-control">
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.currentTarget.value)}
-            placeholder="Contoh: Free Fire, UC, atau Robux"
-            autoComplete="off"
-          />
-          {query && (
-            <button
-              className="clear-search"
-              type="button"
-              onClick={() => setQuery("")}
-            >
-              Hapus pencarian
-            </button>
-          )}
-        </span>
-      </label>
+      {!activeGame && (
+        <label className="search-field">
+          <span>Cari game atau paket</span>
+          <span className="search-control">
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.currentTarget.value)}
+              placeholder="Contoh: Free Fire, UC, atau Robux"
+              autoComplete="off"
+            />
+            {query && (
+              <button
+                className="clear-search"
+                type="button"
+                onClick={() => setQuery("")}
+              >
+                Hapus pencarian
+              </button>
+            )}
+          </span>
+        </label>
+      )}
 
       <div className="catalog-layout">
         <section className="game-directory" aria-label="Daftar game dan paket">

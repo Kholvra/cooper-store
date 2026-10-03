@@ -68,10 +68,10 @@ export function LandingPage() {
     <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] font-[var(--font-sans)]">
       {/* Top Navbar */}
       <header className="sticky top-0 z-40 bg-[var(--color-bg-secondary)] border-b border-[var(--color-border)] px-4 lg:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-4 sm:gap-8 shrink-0">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-2xl font-black tracking-tight text-[var(--color-accent)] font-[var(--font-heading)]">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[var(--color-accent)] font-[var(--font-heading)]">
                 COOPER<span className="text-[var(--color-text-primary)]">.GG</span>
               </span>
             </Link>
@@ -94,32 +94,22 @@ export function LandingPage() {
           </div>
 
           {/* Search bar in nav */}
-          <div className="flex-1 max-w-xl mx-4">
-            <div className="relative">
+          <div className="flex-1 max-w-xl mx-1 sm:mx-4">
+            <div className="relative flex items-center">
+              <Search className="w-4 h-4 text-[var(--color-text-tertiary)] absolute left-3 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Cari game, diamonds, atau voucher..."
-                className="w-full bg-[var(--color-surface)] border border-[var(--color-border-control)] rounded-full px-4 py-2 pl-10 text-xs text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-border-focus)] focus:outline-none transition"
+                className="w-full bg-[var(--color-surface)] border border-[var(--color-border-control)] rounded-full py-2 pl-9 pr-3 text-xs text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-border-focus)] focus:outline-none transition"
               />
-              <span className="absolute left-3.5 top-2.5 text-[var(--color-text-tertiary)] flex items-center" aria-hidden="true">
-                <Search className="w-3.5 h-3.5" />
-              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]">
-              <Headphones className="w-3.5 h-3.5 text-[var(--color-accent)]" />
-              <span>Layanan 24/7</span>
-            </div>
-            <Link
-              href="/catalog"
-              className="px-4 py-2 text-xs font-bold rounded-lg bg-[var(--color-accent)] text-[var(--color-on-accent)] hover:bg-[var(--color-accent-hover)] transition"
-            >
-              Semua Game
-            </Link>
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)] shrink-0">
+            <Headphones className="w-3.5 h-3.5 text-[var(--color-accent)]" />
+            <span>Layanan 24/7</span>
           </div>
         </div>
       </header>

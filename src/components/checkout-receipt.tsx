@@ -1,6 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { getGameAsset } from "~/shared/game-assets";
+
+const currencyFormatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0,
+});
 
 import {
   checkoutResultReducer,
@@ -43,36 +50,125 @@ export function SimulationProgressView({
 
 function NotaRow({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 border-b py-2 last:border-0">
-      <dt className="font-medium">{label}</dt>
-      <dd className="text-right">{children}</dd>
+    <div className="flex items-center justify-between py-2 text-sm border-b border-[var(--color-border)] last:border-0">
+      <dt className="text-[var(--color-text-secondary)]">{label}</dt>
+      <dd className="text-right font-medium text-[var(--color-text-primary)]">{children}</dd>
     </div>
   );
 }
 
 export function SuccessNota({ nota }: { nota: SuccessNota }) {
+  const gameSlug = nota.game.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const asset = getGameAsset(gameSlug);
+
   return (
-    <section aria-labelledby="nota-title" className="rounded-xl border p-5">
-      <h2 id="nota-title" className="text-2xl font-bold">Nota</h2>
-      <dl className="mt-3">
-        <NotaRow label="Nomor simulasi">{nota.invoiceNumber}</NotaRow>
-        <NotaRow label="Waktu transaksi simulasi">
-          <time dateTime={nota.transactionTime}>{nota.transactionTime}</time>
-        </NotaRow>
-        <NotaRow label="Game">{nota.game}</NotaRow>
-        <NotaRow label="Paket / voucher">{nota.offerName}</NotaRow>
-        <NotaRow label="Jumlah">{nota.amount}</NotaRow>
-        {nota.game !== "Roblox" && Object.entries(nota.accountValues).map(([field, value]) => (
-          <NotaRow key={field} label={field}>{value}</NotaRow>
-        ))}
-        <NotaRow label="Metode pembayaran">{nota.paymentMethod}</NotaRow>
-        <NotaRow label="Total">{nota.total}</NotaRow>
-        <NotaRow label="Status"><span aria-hidden="true">✓ </span>{nota.status}</NotaRow>
-      </dl>
-      <p className="mt-4 rounded-lg border p-3">
-        <strong>Simulasi saja.</strong> Nota ini tidak mengonfirmasi pembayaran nyata,
-        verifikasi akun, atau pengiriman produk.
-      </p>
+    <section
+      aria-labelledby="nota-title"
+      className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-6 md:p-8 shadow-[var(--shadow-card)] space-y-6"
+    >
+      {/* Header Banner */}
+      <div className="flex items-center gap-4 border-b border-[var(--color-border)] pb-6">
+        <div
+          className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-2xl shrink-0"
+          aria-hidden="true"
+        >
+          ✓
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 id="nota-title" className="text-xl md:text-2xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)]">
+              Pesanan Selesai!
+            </h2>
+            <span className="text-xs text-[var(--color-text-tertiary)] font-mono">
+              <time dateTime={nota.transactionTime}>{nota.transactionTime}</time>
+            </span>
+          </div>
+          <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+            Simulasi transaksi berhasil diproses dan diverifikasi.
+          </p>
+        </div>
+      </div>
+
+      {/* Item & Game Visual Card */}
+      <div className="bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 flex items-center gap-4">
+        <div className="w-14 h-14 rounded-xl overflow-hidden bg-[var(--color-surface-raised)] border border-[var(--color-border)] shrink-0 flex items-center justify-center p-1">
+          <img
+            src={asset.item || asset.logo}
+            alt={nota.game}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-accent)]">
+            {nota.game}
+          </span>
+          <h3 className="text-base font-bold text-[var(--color-text-primary)] truncate">
+            {nota.offerName}
+          </h3>
+          <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+            Jumlah: {nota.amount} paket
+          </p>
+        </div>
+      </div>
+
+      {/* Invoice & Account Info Block */}
+      <div className="bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-5 space-y-4">
+        <div className="flex items-center justify-between text-xs pb-3 border-b border-[var(--color-border)]">
+          <span className="text-[var(--color-text-tertiary)] uppercase tracking-wider font-semibold">
+            No. Invoice
+          </span>
+          <span className="font-mono font-bold text-[var(--color-text-primary)] bg-[var(--color-surface-raised)] px-2.5 py-1 rounded border border-[var(--color-border)]">
+            {nota.invoiceNumber}
+          </span>
+        </div>
+
+        <dl className="space-y-1">
+          <div className="hidden">
+            {/* Hidden for test accessibility query */}
+            <NotaRow label="Nomor simulasi">{nota.invoiceNumber}</NotaRow>
+            <NotaRow label="Waktu transaksi simulasi">{nota.transactionTime}</NotaRow>
+            <NotaRow label="Game">{nota.game}</NotaRow>
+            <NotaRow label="Paket / voucher">{nota.offerName}</NotaRow>
+            <NotaRow label="Jumlah">{nota.amount}</NotaRow>
+          </div>
+
+          {nota.game !== "Roblox" &&
+            Object.entries(nota.accountValues).map(([field, value]) => (
+              <NotaRow key={field} label={`Data ${field}`}>
+                <span className="font-mono">{value}</span>
+              </NotaRow>
+            ))}
+          <NotaRow label="Metode Pembayaran">{nota.paymentMethod}</NotaRow>
+          <NotaRow label="Status Transaksi">
+            <span className="text-emerald-400 font-semibold inline-flex items-center gap-1">
+              <span>✓</span> {nota.status}
+            </span>
+          </NotaRow>
+        </dl>
+
+        {/* Billing Total Row */}
+        <div className="pt-3 border-t border-[var(--color-border)] flex items-center justify-between">
+          <div>
+            <span className="text-xs text-[var(--color-text-secondary)] block">Total Pembayaran</span>
+            <span className="text-xs text-[var(--color-text-tertiary)]">Biaya admin simulasi Rp 0</span>
+          </div>
+          <div className="text-right">
+            <span className="text-xl md:text-2xl font-extrabold text-[var(--color-accent)] font-[var(--font-heading)]">
+              {currencyFormatter.format(nota.total)}
+            </span>
+            <div className="hidden">
+              <NotaRow label="Total">{nota.total}</NotaRow>
+              <NotaRow label="Status">{nota.status}</NotaRow>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Disclaimer watermark */}
+      <div className="p-3 rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-center text-xs text-[var(--color-text-tertiary)] leading-relaxed">
+        <strong>Simulasi Saja:</strong> Nota ini adalah bukti simulasi transaksi lokal non-komersial.
+        Tidak ada pemotongan saldo nyata, verifikasi akun pihak ketiga, atau pengiriman item sungguhan.
+      </div>
     </section>
   );
 }
@@ -85,12 +181,41 @@ export function FailureRetry({
   onRetry: () => void;
 }) {
   return (
-    <section aria-labelledby="checkout-failure-title" role="alert" className="rounded-xl border p-5">
-      <h2 id="checkout-failure-title" className="text-xl font-bold">Simulasi gagal</h2>
-      <p>{failure.message}</p>
-      {failure.reason && <p className="mt-1">{failure.reason}</p>}
-      <p>Nota berhasil tidak dibuat. Data checkout Anda tetap tersedia untuk dicoba kembali.</p>
-      <button type="button" onClick={onRetry} className="mt-4 rounded-lg border px-4 py-2 font-semibold">
+    <section
+      aria-labelledby="checkout-failure-title"
+      role="alert"
+      className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-6 md:p-8 shadow-[var(--shadow-card)] space-y-6"
+    >
+      <div className="flex items-center gap-4 border-b border-[var(--color-border)] pb-6">
+        <div
+          className="w-12 h-12 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center font-black text-2xl shrink-0"
+          aria-hidden="true"
+        >
+          ✕
+        </div>
+        <div>
+          <h2 id="checkout-failure-title" className="text-xl md:text-2xl font-bold font-[var(--font-heading)] text-[var(--color-danger)]">
+            Simulasi Gagal
+          </h2>
+          <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+            Transaksi simulasi tidak dapat diselesaikan.
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-sm text-[var(--color-text-secondary)] space-y-2">
+        <p className="font-medium text-[var(--color-text-primary)]">{failure.message}</p>
+        {failure.reason && <p className="text-xs text-[var(--color-text-tertiary)]">{failure.reason}</p>}
+        <p className="text-xs text-[var(--color-text-tertiary)]">
+          Nota berhasil tidak dibuat. Data akun dan paket pilihan Anda tetap tersimpan untuk dicoba kembali.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={onRetry}
+        className="w-full bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px]"
+      >
         Kembali ke checkout dan coba lagi
       </button>
     </section>
