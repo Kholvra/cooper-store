@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { getGameAsset } from "~/shared/game-assets";
 
 import { OfferCard } from "~/app/_components/offer-card";
 import { catalogMetadata } from "~/shared/catalog-metadata";
@@ -31,7 +33,15 @@ const currencyFormatter = new Intl.NumberFormat("id-ID", {
 export function Catalog() {
   const [games, setGames] = useState<CatalogGameFromDatabase[]>([]);
   const [query, setQuery] = useState("");
-  const [selectedGameSlug, setSelectedGameSlug] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const urlGame = searchParams.get("game");
+  const [selectedGameSlug, setSelectedGameSlug] = useState<string | null>(urlGame);
+
+  useEffect(() => {
+    if (urlGame) {
+      setSelectedGameSlug(urlGame);
+    }
+  }, [urlGame]);
   const [selectedOffer, setSelectedOffer] =
     useState<SelectedOfferContext | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -137,8 +147,8 @@ export function Catalog() {
   return (
     <main className={`storefront${selectedOffer ? " has-selection" : ""}`}>
       <header className="store-header">
-        <a className="store-name" href="/" aria-label="Katalog game">
-          Katalog game
+        <a className="store-name" href="/" aria-label="cooper-store">
+          cooper-store
         </a>
         <span className="header-note">Top-up dan voucher game</span>
       </header>
@@ -228,34 +238,38 @@ export function Catalog() {
                 </div>
               ) : (
                 <div className="game-tiles-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredGames.map((game) => (
-                    <button
-                      key={game.slug}
-                      type="button"
-                      onClick={() => handleSelectGame(game.slug)}
-                      className="game-tile-card group p-5 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-[var(--radius-card)] text-left transition flex flex-col justify-between min-h-[140px] shadow-[var(--shadow-card)] cursor-pointer"
-                    >
-                      <div>
-                        <div className="flex items-start justify-between gap-2">
-                          <h2 className="text-lg font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition">
+                  {filteredGames.map((game) => {
+                    const asset = getGameAsset(game.slug);
+                    return (
+                      <button
+                        key={game.slug}
+                        type="button"
+                        onClick={() => handleSelectGame(game.slug)}
+                        className="game-tile-card group p-4 bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-[var(--radius-card)] text-left transition flex items-center gap-4 shadow-[var(--shadow-card)] cursor-pointer"
+                      >
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-[var(--color-surface-raised)] border border-[var(--color-border)] shrink-0 group-hover:scale-105 transition-transform duration-200">
+                          <img
+                            src={asset.logo}
+                            alt={game.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h2 className="text-base font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition truncate">
                             {game.name}
                           </h2>
-                          <span className="text-xs px-2 py-0.5 rounded bg-[var(--color-surface-raised)] text-[var(--color-text-tertiary)] border border-[var(--color-border)] whitespace-nowrap">
-                            {game.offers.length} paket
+                          <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+                            {game.slug === "roblox"
+                              ? "Voucher Gift Card"
+                              : `Top-Up · ${game.currency}`}
+                          </p>
+                          <span className="inline-block mt-2 text-[11px] font-semibold text-[var(--color-accent)]">
+                            {game.offers.length} Nominal Pilihan →
                           </span>
                         </div>
-                        <p className="text-sm text-[var(--color-text-secondary)] mt-1">
-                          {game.slug === "roblox"
-                            ? "Jalur voucher (Gift Card / Robux)"
-                            : `Mata uang: ${game.currency}`}
-                        </p>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between text-xs font-semibold text-[var(--color-accent)]">
-                        <span>Pilih Game</span>
-                        <span className="group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
-                      </div>
-                    </button>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -263,25 +277,34 @@ export function Catalog() {
             /* STAGE 2: OFFERS / DIAMONDS FOR SELECTED GAME */
             <div className="game-offers-stage">
               <div className="game-selected-banner bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <span className="text-xs uppercase tracking-wider text-[var(--color-accent)] font-semibold">
-                    Game Terpilih
-                  </span>
-                  <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mt-0.5">
-                    {activeGame.name}
-                  </h2>
-                  <p className="text-sm text-[var(--color-text-secondary)]">
-                    {activeGame.slug === "roblox"
-                      ? "Voucher: Robux / Gift Card IDR"
-                      : `Top-Up · ${activeGame.currency}`}
-                  </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-[var(--color-surface-raised)] border border-[var(--color-border)] shrink-0">
+                    <img
+                      src={getGameAsset(activeGame.slug).logo}
+                      alt={activeGame.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-[var(--color-accent)] font-semibold">
+                      Game Terpilih
+                    </span>
+                    <h2 className="text-xl font-bold text-[var(--color-text-primary)] mt-0.5">
+                      {activeGame.name}
+                    </h2>
+                    <p className="text-xs text-[var(--color-text-secondary)]">
+                      {activeGame.slug === "roblox"
+                        ? "Voucher: Robux / Gift Card IDR"
+                        : `Top-Up · ${activeGame.currency}`}
+                    </p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={handleBackToGames}
-                  className="secondary-button text-sm"
+                  className="secondary-button text-xs"
                 >
-                  Ganti Game Lain
+                  ← Ganti Game
                 </button>
               </div>
 

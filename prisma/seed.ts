@@ -44,7 +44,7 @@ try {
     await transaction.catalogGame.deleteMany({
       where: { slug: { notIn: catalogGames.map((game) => game.slug) } },
     });
-  });
+  }, { timeout: 60000, maxWait: 10000 });
 
   console.info(`Seeded ${catalogGames.length} games and their listed offers.`);
 } finally {
