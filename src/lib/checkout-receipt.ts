@@ -32,7 +32,7 @@ export interface SuccessNota {
   accountValues: Readonly<Record<string, string>>;
   paymentMethod: PaymentMethod;
   total: number;
-  status: "Berhasil (simulasi)";
+  status: "Berhasil" | "Berhasil (simulasi)";
 }
 
 export interface CheckoutFailure {

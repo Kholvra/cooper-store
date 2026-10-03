@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { Check, X, CheckCircle2 } from "lucide-react";
 import { getGameAsset } from "~/shared/game-assets";
-
 const currencyFormatter = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",
@@ -69,10 +69,10 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
       {/* Header Banner */}
       <div className="flex items-center gap-4 border-b border-[var(--color-border)] pb-6">
         <div
-          className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-2xl shrink-0"
+          className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0"
           aria-hidden="true"
         >
-          ✓
+          <Check className="w-6 h-6 stroke-[3]" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -84,7 +84,7 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
             </span>
           </div>
           <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
-            Simulasi transaksi berhasil diproses dan diverifikasi.
+            Transaksi pembayaran berhasil diproses dan diverifikasi.
           </p>
         </div>
       </div>
@@ -140,8 +140,9 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
             ))}
           <NotaRow label="Metode Pembayaran">{nota.paymentMethod}</NotaRow>
           <NotaRow label="Status Transaksi">
-            <span className="text-emerald-400 font-semibold inline-flex items-center gap-1">
-              <span>✓</span> {nota.status}
+            <span className="text-emerald-400 font-semibold inline-flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+              <span>{nota.status}</span>
             </span>
           </NotaRow>
         </dl>
@@ -164,11 +165,6 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
         </div>
       </div>
 
-      {/* Disclaimer watermark */}
-      <div className="p-3 rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-center text-xs text-[var(--color-text-tertiary)] leading-relaxed">
-        <strong>Simulasi Saja:</strong> Nota ini adalah bukti simulasi transaksi lokal non-komersial.
-        Tidak ada pemotongan saldo nyata, verifikasi akun pihak ketiga, atau pengiriman item sungguhan.
-      </div>
     </section>
   );
 }
@@ -188,17 +184,17 @@ export function FailureRetry({
     >
       <div className="flex items-center gap-4 border-b border-[var(--color-border)] pb-6">
         <div
-          className="w-12 h-12 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center font-black text-2xl shrink-0"
+          className="w-12 h-12 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center shrink-0"
           aria-hidden="true"
         >
-          ✕
+          <X className="w-6 h-6 stroke-[3]" />
         </div>
         <div>
           <h2 id="checkout-failure-title" className="text-xl md:text-2xl font-bold font-[var(--font-heading)] text-[var(--color-danger)]">
-            Simulasi Gagal
+            Pembayaran Gagal
           </h2>
           <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
-            Transaksi simulasi tidak dapat diselesaikan.
+            Transaksi tidak dapat diselesaikan.
           </p>
         </div>
       </div>
@@ -214,7 +210,8 @@ export function FailureRetry({
       <button
         type="button"
         onClick={onRetry}
-        className="w-full bg-[var(--color-accent)] text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px]"
+        className="w-full bg-[var(--color-accent)] !text-[#111216] font-bold py-3.5 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition min-h-[44px] cursor-pointer"
+        style={{ color: "#111216" }}
       >
         Kembali ke checkout dan coba lagi
       </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ShoppingCart, Printer, CheckCircle2, XCircle } from "lucide-react";
 import { useEffect, useState, useReducer, useRef } from "react";
 
 import type { CatalogGame } from "~/server/catalog-data";
@@ -77,10 +78,9 @@ const paymentMethodLabels: Record<PaymentMethod, string> = {
   "e-wallet": "E-Wallet",
   "virtual-account": "Virtual Account",
 };
-
 const simulationOutcomeLabels: Record<SimulationOutcome, string> = {
-  success: "Simulasi berhasil",
-  failure: "Simulasi gagal",
+  success: "Berhasil",
+  failure: "Gagal",
 };
 
 export default function CheckoutPage() {
@@ -260,7 +260,7 @@ export default function CheckoutPage() {
       setTimeout(() => {
         if (formState.outcome === "success") {
           const nota: ReceiptSuccessNota = {
-            invoiceNumber: `INV-SIM-${Date.now().toString(36).toUpperCase()}`,
+            invoiceNumber: `INV-${Date.now().toString(36).toUpperCase()}`,
             transactionTime: new Date().toLocaleString("id-ID"),
             game: choices.game,
             offerName: choices.offerName,
@@ -268,7 +268,7 @@ export default function CheckoutPage() {
             accountValues: choices.accountValues,
             paymentMethod: choices.paymentMethod,
             total: state.offer.price,
-            status: "Berhasil (simulasi)",
+            status: "Berhasil",
           };
           cur = checkoutResultReducer(cur, { type: "succeed", nota }, choices);
           setReceiptState({
@@ -283,7 +283,7 @@ export default function CheckoutPage() {
             {
               type: "fail",
               failure: {
-                message: "Simulasi pembayaran gagal atau ditolak dalam skenario uji coba.",
+                message: "Pembayaran gagal atau ditolak oleh sistem.",
               },
             },
             choices
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
             active: true,
             status: "failure",
             progress: cur.progress,
-            failureMessage: "Simulasi pembayaran gagal atau ditolak dalam skenario uji coba.",
+            failureMessage: "Pembayaran gagal atau ditolak oleh sistem.",
           });
         }
       }, 600);
@@ -305,7 +305,7 @@ export default function CheckoutPage() {
         <Link className="store-name" href="/">
           cooper-store
         </Link>
-        <span className="header-note">Checkout Simulasi</span>
+        <span className="header-note">Checkout</span>
       </header>
 
       <section className="checkout-content max-w-4xl mx-auto px-4" aria-labelledby="checkout-title">
@@ -351,7 +351,7 @@ export default function CheckoutPage() {
             {receiptState.status === "progress" && (
               <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-panel)] p-8 text-center space-y-4">
                 <div className="w-12 h-12 rounded-full border-2 border-[var(--color-accent)] border-t-transparent animate-spin mx-auto" />
-                <h2 className="text-xl font-bold font-[var(--font-heading)]">Memproses Transaksi Simulasi</h2>
+                <h2 className="text-xl font-bold font-[var(--font-heading)]">Memproses Transaksi</h2>
                 <p className="text-xs text-[var(--color-text-secondary)]">
                   Status: <span className="text-[var(--color-accent)] font-semibold">{receiptState.progress.status}</span>
                 </p>
@@ -364,16 +364,19 @@ export default function CheckoutPage() {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
                     href="/"
-                    className="flex-1 text-center bg-[var(--color-accent)] text-[#111216] font-bold py-3.5 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition shadow-sm"
+                    className="flex-1 text-center bg-[var(--color-accent)] !text-[#111216] font-bold py-3.5 px-4 rounded-[var(--radius-control)] hover:bg-[var(--color-accent-hover)] transition shadow-sm inline-flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ color: "#111216" }}
                   >
-                    Beli Paket Lain 🛒
+                    <span>Beli Paket Lain</span>
+                    <ShoppingCart className="w-4 h-4" aria-hidden="true" />
                   </Link>
                   <button
                     type="button"
                     onClick={() => window.print()}
-                    className="sm:w-auto px-5 bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3.5 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition"
+                    className="sm:w-auto px-5 bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold py-3.5 rounded-[var(--radius-control)] hover:bg-[var(--color-border)] transition inline-flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    Cetak / Simpan
+                    <Printer className="w-4 h-4 text-[var(--color-text-secondary)]" aria-hidden="true" />
+                    <span>Cetak / Simpan</span>
                   </button>
                 </div>
               </div>
@@ -495,7 +498,7 @@ export default function CheckoutPage() {
                 <span className="bg-[var(--color-surface-raised)] w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-[var(--color-accent)]">
                   {requiredFields.length > 0 ? "2" : "1"}
                 </span>
-                Pilih Metode Pembayaran Simulasi
+                Pilih Metode Pembayaran
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {paymentMethods.map((method) => {
@@ -512,7 +515,7 @@ export default function CheckoutPage() {
                       }`}
                     >
                       <span className="font-semibold text-sm">{paymentMethodLabels[method]}</span>
-                      <span className="text-xs text-[var(--color-text-tertiary)] mt-1">Simulasi instan</span>
+                      <span className="text-xs text-[var(--color-text-tertiary)] mt-1">Proses instan</span>
                     </button>
                   );
                 })}
@@ -533,7 +536,7 @@ export default function CheckoutPage() {
                 <span className="bg-[var(--color-surface-raised)] w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-[var(--color-accent)]">
                   {requiredFields.length > 0 ? "3" : "2"}
                 </span>
-                Pilih Hasil Uji Coba Simulasi
+                Pilih Hasil Transaksi
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {simulationOutcomes.map((outcome) => {
@@ -550,13 +553,17 @@ export default function CheckoutPage() {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className={`w-3 h-3 rounded-full ${outcome === "success" ? "bg-[var(--color-success)]" : "bg-[var(--color-danger)]"}`} />
+                        {outcome === "success" ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-500 shrink-0" aria-hidden="true" />
+                        )}
                         <span className="font-semibold text-sm">{simulationOutcomeLabels[outcome]}</span>
                       </div>
                       <p className="text-xs text-[var(--color-text-secondary)] mt-1">
                         {outcome === "success"
-                          ? "Simulasi alur transaksi berhasil dan terbitkan nota nota sukses."
-                          : "Simulasi skenario kegagalan pembayaran dengan opsi coba lagi."}
+                          ? "Skenario transaksi berhasil dan terbitkan nota invoice."
+                          : "Skenario pembayaran gagal dengan opsi coba lagi."}
                       </p>
                     </button>
                   );
@@ -578,7 +585,7 @@ export default function CheckoutPage() {
                 className="primary-button !text-[#111216] font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] shadow-md active:translate-y-px transition min-h-[48px] cursor-pointer"
                 style={{ color: "#111216" }}
               >
-                Buat pesanan simulasi
+                Bayar Sekarang
               </button>
             </div>
           </div>
@@ -599,7 +606,7 @@ export default function CheckoutPage() {
           Konfirmasi Detail Pesanan
         </h2>
         <p className="text-sm text-[var(--color-text-secondary)] mb-6">
-          Periksa kembali detail pesanan simulasi Anda.
+          Periksa kembali detail pesanan Anda sebelum melanjutkan.
         </p>
 
         {state.status === "ready" && (
@@ -628,7 +635,7 @@ export default function CheckoutPage() {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[var(--color-text-secondary)]">Simulasi Hasil:</span>
+              <span className="text-[var(--color-text-secondary)]">Status Hasil:</span>
               <span className="font-medium">
                 {formState.outcome ? simulationOutcomeLabels[formState.outcome] : "-"}
               </span>
@@ -654,7 +661,7 @@ export default function CheckoutPage() {
             className="primary-button flex-1 !text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] shadow-sm transition min-h-[44px] cursor-pointer"
             style={{ color: "#111216" }}
           >
-            Konfirmasi simulasi
+            Konfirmasi Pembayaran
           </button>
         </div>
       </dialog>
