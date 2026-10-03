@@ -173,7 +173,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/kolvra/code/exasti-case-study/generated/prisma",
+      "value": "/home/kolvra/code/exasti-case-study-req-004/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -187,12 +187,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/kolvra/code/exasti-case-study/prisma/schema.prisma",
+    "sourceFilePath": "/home/kolvra/code/exasti-case-study-req-004/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.19.3",
