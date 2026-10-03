@@ -166,6 +166,22 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.CatalogGameScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  currency: 'currency',
+  position: 'position'
+};
+
+exports.Prisma.CatalogOfferScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  price: 'price',
+  position: 'position',
+  gameId: 'gameId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -187,7 +203,9 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  CatalogGame: 'CatalogGame',
+  CatalogOffer: 'CatalogOffer'
 };
 
 /**

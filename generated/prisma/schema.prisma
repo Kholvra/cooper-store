@@ -73,3 +73,25 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model CatalogGame {
+  id       Int            @id @default(autoincrement())
+  slug     String         @unique
+  name     String
+  currency String
+  position Int
+  offers   CatalogOffer[]
+
+  @@unique([position])
+}
+
+model CatalogOffer {
+  id       Int         @id @default(autoincrement())
+  label    String
+  price    Int
+  position Int
+  gameId   Int
+  game     CatalogGame @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, position])
+}
