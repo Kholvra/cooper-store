@@ -4,7 +4,7 @@
 
 `Ready` for downstream handoff only.
 
-This verdict applies to the requirement package, not implementation delivery. The repository foundation is **partial and blocked**: typecheck passes, but build and local launch fail because Discord auth environment variables are unset; the persistent identity model also conflicts with the session-only boundary.
+This verdict applies to the requirement package, not implementation delivery. The repository foundation is **partial and blocked**: `pnpm typecheck` and `pnpm build` pass, and the anonymous root and removed auth routes have been smoke-checked. The supported Node.js version and delivery workflow remain unspecified; the storefront and catalog models are not implemented in this worktree.
 
 ## Definition of Ready — evidence
 
@@ -20,16 +20,15 @@ This verdict applies to the requirement package, not implementation delivery. Th
 | Dependencies / recovery recorded | No prerequisite; partial/failure status keeps feature lane blocked | Pass |
 | Coherent outcome | One foundation gate, not frontend/backend/database tasks | Pass |
 | Lane and graph role valid | Active `REQ-001` is the common foundation gate; no sequence number is assigned | Pass |
-| Foundation evidence | [`package.json`](../../../../package.json), [`README.md`](../../../../README.md), [`AGENTS.md`](../../../../AGENTS.md), [`GUARDRAILS.json`](../../../architecture/GUARDRAILS.json), and [`BASELINE.md`](../../../architecture/BASELINE.md) identify the scaffold, commands, and guardrails; typecheck passes, but build/launch and session-only architecture requirements remain unsatisfied | Partial; implementation gate remains blocked |
+| Foundation evidence | [`package.json`](../../../../package.json), [`README.md`](../../../../README.md), [`AGENTS.md`](../../../../AGENTS.md), [`GUARDRAILS.json`](../../../architecture/GUARDRAILS.json), and [`BASELINE.md`](../../../architecture/BASELINE.md) identify the scaffold, commands, and guardrails; typecheck/build pass and local route smoke succeeds, but supported runtime and delivery workflow evidence remain incomplete | Partial; implementation gate remains blocked |
 | Backlog metadata consistent | Matches `docs/product/backlog.md` | Pass |
 | Next-domain handoff named | `repo-workflow` with required input artifacts linked | Pass |
 | Human scope / priority approval | User requested the E2E backlog; priority and size remain `unset` by policy | Pass for handoff; triage remains open |
 
 ## Blockers / decisions needed
 
-- `pnpm build` and `pnpm dev` fail environment validation because `AUTH_DISCORD_ID` and `AUTH_DISCORD_SECRET` are unset. No successful local route smoke was possible.
-- `src/server/auth/config.ts` configures a Prisma adapter and `prisma/schema.prisma` contains persistent `User`, `Account`, and `Session` models, conflicting with `ARCH-SCO-002`. No waiver/exception is recorded.
-- `package.json` does not pin a supported Node version; no automated test runner or `.github` workflow is configured.
+- The source-level auth conflict has been removed: auth routes/packages and identity/Post models are absent from the current source/schema/generated client. No physical database migration ran because the deployment target is unverified; legacy tables may remain.
+- `package.json` does not pin a supported Node version; no automated test runner or `.github` workflow is configured. The nine-game storefront and catalog models remain unimplemented in this worktree.
 
 ## Agent suggestions awaiting approval
 

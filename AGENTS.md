@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Overview
-Next.js 15 App Router storefront, currently a Create T3 App foundation using React 19, TypeScript, tRPC, Prisma, NextAuth, Zod, and Tailwind CSS v4. Product documents define a nine-game Indonesian top-up case study with simulated checkout and session-only receipts; the implementation is still scaffold-level and does not yet satisfy that product boundary.
+Next.js 15 App Router storefront foundation using React 19, TypeScript, tRPC, Prisma, Zod, and Tailwind CSS v4. Product documents define a nine-game Indonesian top-up case study with catalog-only persistence and session-only checkout/receipts; the storefront features are not implemented in the current req-001 worktree.
 
 ## Setup Commands
 - Install: `pnpm install`
@@ -18,7 +18,7 @@ Next.js 15 App Router storefront, currently a Create T3 App foundation using Rea
 - Preserve strict TypeScript and the `~/*` alias (`~/*` maps to `src/*`).
 - Keep user-facing errors actionable and free of stack traces; retain technical detail in diagnostics.
 - Do not invent catalog prices or artwork. Use the approved references under `docs/`.
-- The storefront remains simulation-only: no real payment gateway, card charge, or persistent order/account feature.
+- The storefront remains simulation-only: no real payment gateway, card charge, persistent user/account, or persistent order feature. Catalog persistence is allowed by REQ-002 C-010.
 
 ## Language & Style
 - TypeScript is strict, uses ES modules, async/await, Zod validation, and tRPC procedures.
@@ -27,15 +27,15 @@ Next.js 15 App Router storefront, currently a Create T3 App foundation using Rea
 - Use Tailwind v4 in `src/styles/globals.css`; follow the existing design tokens under `docs/design/`.
 
 ### Naming Conventions
-- `PascalCase` for React components (`RootLayout`, `Home`, `LatestPost`).
-- `camelCase` for functions, variables, hooks, and utilities; Next route folders use `[trpc]` and `[...nextauth]`.
+- `PascalCase` for React components (`RootLayout`, `Home`).
 - Match the primary export and keep tests colocated or consistently mirrored if tests are introduced; there are currently no test files or test script.
 - Prefer named exports; route handlers use the framework-required `GET`/`POST` exports.
 
 ## Architecture Rules
-- UI: `src/app`; client tRPC provider/hydration: `src/trpc`; server API composition: `src/server/api`; auth: `src/server/auth`; database: `src/server/db.ts` and `prisma/`.
-- Flow is App Router entry point → tRPC procedure → Prisma/auth context. Lower layers must not import UI modules.
-- Keep route handlers thin: adapt HTTP requests and delegate to tRPC or auth modules.
+
+- UI: `src/app`; client tRPC provider: `src/trpc`; server API composition: `src/server/api`; database: `src/server/db.ts` and `prisma/`.
+- Flow is App Router → tRPC procedure → server/data. No auth or identity persistence is configured.
+- Keep route handlers thin: adapt HTTP requests and delegate to tRPC.
 - `src/server/api/root.ts` is the tRPC router registry; add feature routers there rather than bypassing the API boundary.
 - Treat `tmp-t3/` as a duplicate/generated workspace, not a second application source root. Resolve or document it before adding code there.
 
@@ -51,10 +51,11 @@ Next.js 15 App Router storefront, currently a Create T3 App foundation using Rea
 No test framework or test files are configured. Use `pnpm typecheck` and `pnpm build` for current verification. New behavior requires a consumer-visible regression test once a test framework is deliberately introduced.
 
 ## Operational Notes
-- Required env vars are `AUTH_SECRET`, `AUTH_DISCORD_ID`, `AUTH_DISCORD_SECRET`, `DATABASE_URL`, and `NODE_ENV`; copy `.env.example` to local environment only.
+
+- `DATABASE_URL` is required; `NODE_ENV` defaults to `development`. Auth variables are not used.
 - Prisma generates client output under `generated/prisma`; do not edit generated files.
 - Development tRPC middleware intentionally adds a random 100–500 ms delay and logs timing.
-- `docs/architecture/BASELINE.md` says foundation status is missing; current Prisma/NextAuth persistent user models conflict with the documented session-only product boundary and require resolution, not silent extension.
+- `docs/architecture/BASELINE.md` records foundation status as partial; auth/identity source models were removed, but legacy database tables may remain until a verified safe target is available.
 
 ## Communication
 Use concise English, concrete paths and commands, and report observed verification output. Keep product-facing copy consistent with the existing Indonesian storefront direction when implementing UI.
@@ -88,8 +89,7 @@ Use concise English, concrete paths and commands, and report observed verificati
 ## Project Structure
 - `src/app/`: routes, layouts, server pages, client components, and HTTP adapters; keep route-specific UI here.
 - `src/server/api/`: tRPC context, root registry, and routers; keep domain API procedures here.
-- `src/server/auth/`: NextAuth configuration and cached auth; do not put UI logic here.
-- `src/trpc/`: client/server query plumbing and hydration; do not place business rules here.
+- `src/trpc/`: client query provider; no RSC hydration helper is retained while the root router has no procedures.
 - `prisma/`: schema and migrations; generated client output is not hand-edited.
 - `docs/product/`, `docs/design/`, `docs/architecture/`: product contracts, visual/IA decisions, and executable guardrails.
 - `tmp-t3/`: duplicate workspace artifact; do not treat it as an application domain.
@@ -118,17 +118,16 @@ No repository-specific branch or commit convention is documented. Use a focused 
 
 ## Key Workflows
 ### Adding a tRPC feature
-1. Add a router under `src/server/api/routers/` following `post.ts`.
-2. Validate inputs with Zod and use the existing context/procedure helpers.
+1. Add a router under `src/server/api/routers/` using the shared procedure helpers in `src/server/api/trpc.ts`.
+2. Validate inputs with Zod and use the existing anonymous context helpers.
 3. Register the router in `src/server/api/root.ts`.
-4. Expose it through existing server/client tRPC helpers; do not call Prisma from UI.
+4. Expose it through the appropriate server/client tRPC boundary; do not call Prisma from UI.
 5. Run `pnpm typecheck`, then `pnpm build`.
 
 ### Adding a page or interactive component
-1. Follow `src/app/page.tsx` for server fetching and `_components/post.tsx` for client interaction.
-2. Keep the component under the owning route and preserve the server/client boundary.
-3. Use tokens in `docs/design/DESIGN_TOKENS.md` and styles in `src/styles/globals.css`.
-4. Verify with `pnpm typecheck` and a local `pnpm dev` smoke check.
+1. Keep the component under the owning route and preserve the server/client boundary.
+2. Use tokens in `docs/design/DESIGN_TOKENS.md` and styles in `src/styles/globals.css`.
+3. Verify with `pnpm typecheck` and a local `pnpm dev` smoke check.
 
 ### Verifying a change
 1. Run the narrowest available check (`pnpm typecheck` for code/config changes).
