@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getGameAsset } from "~/shared/game-assets";
+import { FaqSection } from "~/app/_components/faq-section";
 import { OfferCard } from "~/app/_components/offer-card";
 import { catalogMetadata } from "~/shared/catalog-metadata";
 import type { CatalogGame } from "~/server/catalog-data";
@@ -388,6 +389,11 @@ export function Catalog() {
           </button>
         </aside>
       </div>
+      {/* Pre-footer FAQ Section */}
+      <FaqSection
+        title={activeGame ? `FAQ & Panduan Top-Up ${activeGame.name}` : "Pertanyaan yang Sering Diajukan (FAQ)"}
+        description="Panduan cara top up, informasi akun, keamanan, dan metode pembayaran di Cooper Store."
+      />
 
       <footer className="store-footer">
         <p>Daftar paket mengikuti entri yang terbaca pada dokumen sumber.</p>

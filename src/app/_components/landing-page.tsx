@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
+import { FaqSection } from "~/app/_components/faq-section";
 import { getGameAsset } from "~/shared/game-assets";
 import type { CatalogGame } from "~/server/catalog-data";
 
@@ -293,6 +294,9 @@ export function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Pre-footer FAQ Section */}
+        <FaqSection />
       </main>
 
       {/* Footer */}
