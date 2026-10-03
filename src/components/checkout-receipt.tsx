@@ -84,7 +84,7 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
             </span>
           </div>
           <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
-            Simulasi transaksi berhasil diproses dan diverifikasi.
+            Transaksi pembayaran berhasil diproses dan diverifikasi.
           </p>
         </div>
       </div>
@@ -165,11 +165,6 @@ export function SuccessNota({ nota }: { nota: SuccessNota }) {
         </div>
       </div>
 
-      {/* Disclaimer watermark */}
-      <div className="p-3 rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-border)] text-center text-xs text-[var(--color-text-tertiary)] leading-relaxed">
-        <strong>Simulasi Saja:</strong> Nota ini adalah bukti simulasi transaksi lokal non-komersial.
-        Tidak ada pemotongan saldo nyata, verifikasi akun pihak ketiga, atau pengiriman item sungguhan.
-      </div>
     </section>
   );
 }
@@ -196,10 +191,10 @@ export function FailureRetry({
         </div>
         <div>
           <h2 id="checkout-failure-title" className="text-xl md:text-2xl font-bold font-[var(--font-heading)] text-[var(--color-danger)]">
-            Simulasi Gagal
+            Pembayaran Gagal
           </h2>
           <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
-            Transaksi simulasi tidak dapat diselesaikan.
+            Transaksi tidak dapat diselesaikan.
           </p>
         </div>
       </div>

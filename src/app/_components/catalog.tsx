@@ -161,7 +161,7 @@ export function Catalog() {
           <h1>{activeGame ? `Pilih Nominal ${activeGame.slug === "roblox" ? "Voucher" : activeGame.currency}` : "Katalog Top-Up Game"}</h1>
           <p className="heading-description">
             {activeGame
-              ? `Pilih paket ${activeGame.name} untuk melanjutkan ke simulasi pembayaran.`
+              ? `Pilih paket ${activeGame.name} untuk melanjutkan ke pembayaran.`
               : "Pilih game favorit Anda untuk melihat daftar paket dan nominal harga."}
           </p>
         </div>

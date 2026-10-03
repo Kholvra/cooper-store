@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Printer } from "lucide-react";
+import { ShoppingCart, Printer, CheckCircle2, XCircle } from "lucide-react";
 import { useEffect, useState, useReducer, useRef } from "react";
 
 import type { CatalogGame } from "~/server/catalog-data";
@@ -500,6 +500,7 @@ export default function CheckoutPage() {
                 </span>
                 Pilih Metode Pembayaran
               </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {paymentMethods.map((method) => {
                   const isSelected = formState.paymentMethod === method;
                   return (
@@ -516,6 +517,7 @@ export default function CheckoutPage() {
                       <span className="font-semibold text-sm">{paymentMethodLabels[method]}</span>
                       <span className="text-xs text-[var(--color-text-tertiary)] mt-1">Proses instan</span>
                     </button>
+                  );
                 })}
               </div>
               {formState.errors.paymentMethod && (
@@ -536,6 +538,7 @@ export default function CheckoutPage() {
                 </span>
                 Pilih Hasil Transaksi
               </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {simulationOutcomes.map((outcome) => {
                   const isSelected = formState.outcome === outcome;
                   return (
@@ -550,7 +553,11 @@ export default function CheckoutPage() {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className={`w-3 h-3 rounded-full ${outcome === "success" ? "bg-[var(--color-success)]" : "bg-[var(--color-danger)]"}`} />
+                        {outcome === "success" ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-500 shrink-0" aria-hidden="true" />
+                        )}
                         <span className="font-semibold text-sm">{simulationOutcomeLabels[outcome]}</span>
                       </div>
                       <p className="text-xs text-[var(--color-text-secondary)] mt-1">
@@ -578,7 +585,7 @@ export default function CheckoutPage() {
                 className="primary-button !text-[#111216] font-bold text-base py-3.5 px-4 rounded-[var(--radius-control)] shadow-md active:translate-y-px transition min-h-[48px] cursor-pointer"
                 style={{ color: "#111216" }}
               >
-                Buat pesanan simulasi
+                Bayar Sekarang
               </button>
             </div>
           </div>
@@ -599,7 +606,7 @@ export default function CheckoutPage() {
           Konfirmasi Detail Pesanan
         </h2>
         <p className="text-sm text-[var(--color-text-secondary)] mb-6">
-          Periksa kembali detail pesanan simulasi Anda.
+          Periksa kembali detail pesanan Anda sebelum melanjutkan.
         </p>
 
         {state.status === "ready" && (
@@ -628,7 +635,7 @@ export default function CheckoutPage() {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[var(--color-text-secondary)]">Simulasi Hasil:</span>
+              <span className="text-[var(--color-text-secondary)]">Status Hasil:</span>
               <span className="font-medium">
                 {formState.outcome ? simulationOutcomeLabels[formState.outcome] : "-"}
               </span>
@@ -654,7 +661,7 @@ export default function CheckoutPage() {
             className="primary-button flex-1 !text-[#111216] font-bold py-3 px-4 rounded-[var(--radius-control)] shadow-sm transition min-h-[44px] cursor-pointer"
             style={{ color: "#111216" }}
           >
-            Konfirmasi simulasi
+            Konfirmasi Pembayaran
           </button>
         </div>
       </dialog>
