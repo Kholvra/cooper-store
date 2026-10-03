@@ -303,7 +303,7 @@ export default function CheckoutPage() {
     <main className="storefront checkout-page min-h-screen pb-16">
       <header className="store-header mb-8">
         <Link className="store-name" href="/">
-          cooper-store
+          cooper.gg
         </Link>
         <span className="header-note">Checkout</span>
       </header>

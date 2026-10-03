@@ -147,8 +147,8 @@ export function Catalog() {
   return (
     <main className={`storefront${selectedOffer ? " has-selection" : ""}`}>
       <header className="store-header">
-        <a className="store-name" href="/" aria-label="cooper-store">
-          cooper-store
+        <a className="store-name" href="/" aria-label="cooper.gg">
+          cooper.gg
         </a>
         <span className="header-note">Top-up dan voucher game</span>
       </header>
